@@ -11,7 +11,7 @@ if (!isset($_SESSION["id"])) {
 <head>
     <meta charset="UTF-8">
     <title>CommunityConnect - Home</title>
-    <link rel="stylesheet" href="../CSS/style.css">
+    <link rel="stylesheet" href="../CSS/user.css">
 </head>
 
 <body>

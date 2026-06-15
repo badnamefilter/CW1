@@ -9,38 +9,50 @@ require_once("../database.php");
 $errorMessage = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = isset($_POST["username"]) && !empty($_POST["username"]) ? $_POST["username"] : "";
-    $password = isset($_POST["password"]) && !empty($_POST["password"]) ? $_POST["password"] : "";
 
-    $sql = "SELECT id,username,password,role,email
-        FROM account
-        WHERE username = '$username';";
+    $captcha = $_POST['g-recaptcha-response'];
+    $secretKey = "6LdPWSAtAAAAALmmXm5ciDqe3hX1lriACIcWHA5i";
 
-    $result = mysqli_query($connection, $sql);
+    $verify = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=$secretKey&response=$captcha");
+    $captcha_result = json_decode($verify);
 
-    $row = mysqli_fetch_array($result);
+    if (!$captcha_result->success) {
+        $errorMessage = "Captcha verification failed. Please try again.";
+        
+    } else {
 
-    if ($row) {
-        if (password_verify($password, $row['password'])) {
+        $username = isset($_POST["username"]) && !empty($_POST["username"]) ? $_POST["username"] : "";
+        $password = isset($_POST["password"]) && !empty($_POST["password"]) ? $_POST["password"] : "";
 
-            $_SESSION["id"] = $row['id'];
-            $_SESSION["username"] = $row['username'];
-            $_SESSION["role"] = $row['role'];
-            $_SESSION["email"] = $row['email'];
+        $sql = "SELECT id,username,password,role,email
+            FROM account
+            WHERE username = '$username';";
 
-            if ($_SESSION["role"] === 'admin') {
-                header("Location: ../AdminPanel/admin_page.php");
+        $result = mysqli_query($connection, $sql);
+
+        $row = mysqli_fetch_array($result);
+
+        if ($row) {
+            if (password_verify($password, $row['password'])) {
+
+                $_SESSION["id"] = $row['id'];
+                $_SESSION["username"] = $row['username'];
+                $_SESSION["role"] = $row['role'];
+                $_SESSION["email"] = $row['email'];
+
+                if ($_SESSION["role"] === 'admin') {
+                    header("Location: ../AdminPage/Admin_Main.php");
+                } else {
+                    header("Location: ../MainPage/user_page.php");
+                }
+                exit();
             } else {
-                header("Location: ../MainPage/user_page.php");
+                $errorMessage = "Invalid! Please try again!<br>";
             }
-            exit();
         } else {
             $errorMessage = "Invalid! Please try again!<br>";
         }
-    } else {
-        $errorMessage = "Invalid! Please try again!<br>";
     }
-
 }
 ?>
 
@@ -52,7 +64,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <title>Community Services</title>
-    <link rel="stylesheet" href="../CSS/style.css">
+    <link rel="stylesheet" href="../CSS/user.css">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <style>
 
@@ -89,7 +102,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="password" id="password" name="password" required><br><br>
             <p><a href="forgotPassword.php">Forgot your password?</a></p>
             <br>
-            <input type="submit" value="Log In">
+            <input type="submit" value="Log In"><br><br>
+            <div class="g-recaptcha" data-sitekey="6LdPWSAtAAAAACMYWlvfve0qiHJ-C014wh49UJSD"></div>
             <br><br>
             <p>Don't have an account? <a href="register.php">Sign up here</a>.</p>
         </form>

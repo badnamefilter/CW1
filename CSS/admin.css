@@ -1,0 +1,570 @@
+body {
+  background: rgb(225, 225, 225);
+  font-family: 'Times New Roman', serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* --- Top Header Section --- */
+.top-header {
+    background: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    border-bottom: 1px solid #e0e0e0;
+    height: 80px;
+    margin: 0;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.brand-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #2e7d32; /* Core Branding Green */
+}
+
+.divider {
+    color: #cccccc;
+    font-size: 24px;
+}
+
+.logo-placeholder {
+    width: 30px;
+    height: 30px;
+}
+
+.org-host {
+    font-size: 14px;
+    color: #333333;
+}
+
+.header-right {
+    display: flex;
+    align-self: stretch;
+}
+
+.profile-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: Green;
+    color: #ffffff;
+    padding: 0 40px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    height: 100%;
+}
+
+/* --- Shared Navigation Bar --- */
+/* Add layout settings to the parent container to clear vertical gaps */
+.main-nav {
+    background: white;
+    display: flex;
+    align-items: stretch; /* Forces links to expand vertically to touch both borders */
+    height: 70px;         /* Defines the total height between header and hero-content */
+    margin: 0;
+}
+
+.main-nav a {
+    display: inline-flex; /* Allows text to center vertically inside stretched height */
+    align-items: center;  /* Centers the text vertically */
+    margin: 0;
+    padding: 0 30px;      /* 0 vertical padding prevents gaps; adjust 25px for side spacing */
+    color: #333333;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.main-nav a:hover {
+    color: white;
+    background-color: #2e7d32;
+}
+
+.current {
+  background-color: #55ccff;
+}
+
+/* Program Page */
+.programs {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top:30px;
+    margin-bottom: 50px;
+    background: #ffffff;
+    border: 1px solid #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 3px 3px 5px #4d4d4d;
+}
+
+.randomline{
+    margin-top: 30px;
+    height: 3px;
+    background-color: #000000;
+}
+
+.create-program {
+    border: 3px solid #afffcc;
+    background-color: #afffcc;
+    box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 30px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.create-program a{
+    text-decoration: none;
+}
+
+.create-program h2{
+    font-size: 40px;
+}
+
+.create-program h1{
+    font-size: 60px;
+}
+
+.create-program:hover{
+    border: 3px solid #15803d;
+    background-color: #15803d;
+}
+
+.count {
+  color: #888;
+  font-size: 14px;
+}
+
+.program-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.program-item:last-child {
+  border-bottom: none;
+}
+
+.program-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.program-info h3 {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 3px;
+}
+
+.program-info p {
+  font-size: 16px;
+  color: #666;
+}
+
+.program-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.create-button {
+  border: 2px solid rgb(206, 250, 192);
+  background: rgb(206, 250, 192);
+  border-radius:8px;
+  padding: 8px 16px;
+}
+
+.create-button:hover{
+  border: 2px solid rgb(60, 255, 0);
+  background: rgb(60, 255, 0);
+}
+
+.pamount {
+    border: 1px solid #dcfce7;
+    background-color: #dcfce7;
+    color: #15803d;
+    font-size: 1opx;
+    padding: 6px 15px;
+    border-radius: 999px;
+    margin-right: 5px;
+}
+
+.badge {
+  font-size: 16.7px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  margin-right: 20px;
+}
+
+.badge.active {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.badge.draft {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+.edit-button {
+  border: 2px solid rgb(146, 252, 127);
+  background: rgb(146, 252, 127);
+  color: #000000;
+  padding: 15px 40px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: larger;
+}
+
+.edit-button:hover {
+  border: 2px solid #00ff4c;
+  background: #00ff4c;
+}
+
+.delete-button {
+  border: 2px solid rgb(255, 117, 138);
+  background: rgb(255, 117, 138);
+  color: #000000;
+  padding: 15px 30px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: larger;
+}
+
+.delete-button:hover{
+  border: 2px solid rgb(255, 0, 38);
+  background:rgb(255, 0, 38);
+}
+
+/* Request Page */
+.rtitle {
+    margin-left: 20px;
+}
+
+.requests {
+    border: 1px solid #ffffff;
+    background-color: #ffffff;
+    border-radius: 10px;
+    margin-left: 40px;
+    margin-right: 40px;
+    box-shadow: 3px 3px 5px #4d4d4d;
+}
+
+.requests-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.requests-person {
+    padding-left: 20px;
+}
+
+.requests-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: flex-end;
+    padding-right: 10px;
+}
+
+.accept-button {
+    border: 2px solid rgb(146, 252, 127);
+    background: rgb(146, 252, 127);
+    color: #000000;
+    padding: 10px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.accept-button:hover {
+    border: 2px solid #00ff4c;
+    background: #00ff4c;
+}
+
+.reject-button {
+    border: 2px solid rgb(255, 117, 138);
+    background: rgb(255, 117, 138);
+    color: #000000;
+    padding: 10px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.reject-button:hover{
+  border: 2px solid rgb(255, 0, 38);
+  background:rgb(255, 0, 38);
+}
+
+/* Creating Page */
+.ctitle {
+    margin-left: 20px;
+}
+
+.cProgram {
+    margin: 30px auto;
+    width: 40%;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #ffffff;
+    padding: 40px 50px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.detail {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333333;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.normal {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 16px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.dd {
+    resize: vertical;
+}
+
+.form-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.submit-btn {
+    flex: 1;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.submit-btn:hover {
+    background-color: #45a049;
+}
+
+.cancel-btn {
+    flex: 1;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.cancel-btn:hover {
+    background-color: #d32f2f;
+}
+
+.reset-btn {
+    flex: 1;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #888888;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.reset-btn:hover {
+    background-color: #666666;
+}
+
+.choice {
+    font-size: 25px;
+}
+
+/* Home Page */
+.welcome {
+    font-family: 'Times New Roman', Times, serif;
+    color: darkgreen;
+    font-size: 20px;
+    margin-left: 30px;
+    margin-top: 40px;
+    line-height: 0.4;
+}
+
+/* The program stat box */ 
+.container {
+    display: flex;
+    margin-left: 30px;
+    gap: 20px;
+}
+
+.lainfo {
+    border: 2px solid rgb(209, 209, 209);
+    border-radius: 10px;
+    background-color: white;
+    width: 15%;
+    margin-left: 40px;
+    margin-top: 20px;
+    padding: 10px;
+}
+
+.tprog {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 15px;
+}
+
+.grey {
+    color: #a9a9a9;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: large;
+}
+
+.Count {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 25px;
+}
+
+/* Programs Box */
+.envet{
+    font-family: 'Times New Roman', Times, serif;
+    color: darkgreen;
+    font-size: 18px;
+    margin-left: 0px;
+    margin-top: 60px;
+    line-height: 0.4;
+}
+
+.container2{
+    display: flex;
+    gap: 3px;
+    margin-bottom: 50px;
+}
+
+.envetsWg {
+    border: 2px solid rgb(215, 195, 195);
+    border-radius: 10px;
+    box-shadow: 1px 1px #6f6f6f;
+    background-color: white;
+    width: 40%;
+    margin-left: 70px;
+    margin-top: 10px;
+    padding-left: 40px;
+    padding-right: 70px;
+    padding-top: 35px;
+    padding-bottom: 40px;
+}
+
+.envetTitle{
+    font-family: 'Times New Roman', Times, serif;
+    color: darkgreen;
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.envetDes{
+    padding-top: 15px;
+    color: #888;
+    font-size: 16px;
+    
+}
+
+.randomah{
+    display: flex;
+}
+
+.randomm{
+    margin-left: 30px;
+}
+
+.aprove{
+    position: absolute;
+    right: 0;
+    margin-right: 110px;
+    top: 450px;
+    width: 30%;
+    border: 2px solid rgb(215, 195, 195);
+    border-radius: 10px;
+    background-color: white;
+}
+
+.requestHome {
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.lalala{
+    display: flex;
+    gap: 240px;
+}
+
+.niba{
+    border-radius: 10px;
+    border: 4px solid #97ffb7;
+    background-color: #97ffb7;
+    padding: 5px;
+}
+
+.niba:hover{
+    border: 4px solid #00ff4c;
+    background-color: #00ff4c;
+}
+
+.reqtitle{
+    font-family: 'Times New Roman', Times, serif;
+    color: darkgreen;
+    font-weight: bold;
+    font-size: 25px;
+    margin-left: 30px;
+}
+
+.ud{
+    margin-left: 10px;
+    font-weight: bold;
+}
+
+.ude{
+    margin-left: 10px;
+    margin-top: 10px;
+    color: #888;
+}
+
+.user{
+    margin-top: 50px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid rgb(215, 195, 195);
+    margin-left: 20px;
+    margin-right: 20px;
+}

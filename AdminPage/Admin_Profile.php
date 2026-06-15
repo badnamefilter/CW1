@@ -3,7 +3,7 @@
 require_once("../database.php");
 
 session_start();
-if (!isset($_SESSION["id"])) {
+if (!isset($_SESSION["id"]) || $_SESSION["role"] !== "admin") {
     header("Location: ../UserLogin/login.php");
     exit();
 }
@@ -75,14 +75,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             </div>
         </div>
         <div class="header-right">
-            <a href="profile.php" class="profile-btn">Profile</a>
+            <a href="profile.php" class="profile-btn">Admin Profile</a>
         </div>
     </header>
 
     <nav class="main-nav">
-        <a href="user_page.php" target="_self">Home</a>
-        <a href="program.php" target="_self">Explore</a>
-        <a href="program_status.php" target="_self">Join Requests</a>
+        <a href="Admin_Main.php" target="_self">Dashboard</a>
+        <a href="Admin_Program.php" target="_self">Program</a>
+        <a href="Admin_Request.php" target="_self">Approvals</a>
     </nav>
 
     <div class="form-body">
