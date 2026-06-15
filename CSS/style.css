@@ -1,0 +1,315 @@
+/* --- Global Base Resets --- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family:
+    Times New Roman,
+    serif;
+}
+
+/* --- Top Header Section --- */
+.top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 40px;
+
+  border-bottom: 1px solid #e0e0e0;
+  height: 80px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.brand-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #2e7d32; /* Core Branding Green */
+}
+
+.divider {
+  color: #cccccc;
+  font-size: 24px;
+}
+
+.logo-placeholder {
+  width: 30px;
+  height: 30px;
+}
+
+.org-host {
+  font-size: 14px;
+  color: #333333;
+}
+
+.header-right {
+  display: flex;
+  align-self: stretch;
+}
+
+.profile-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: Green;
+  color: #ffffff;
+  padding: 0 40px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px;
+  height: 100%;
+}
+
+/* --- Shared Navigation Bar --- */
+/* Add layout settings to the parent container to clear vertical gaps */
+.main-nav {
+  display: flex;
+  align-items: stretch; /* Forces links to expand vertically to touch both borders */
+  height: 70px; /* Defines the total height between header and hero-content */
+}
+
+.main-nav a {
+  display: inline-flex; /* Allows text to center vertically inside stretched height */
+  align-items: center; /* Centers the text vertically */
+  margin: 0;
+  padding: 0 30px; /* 0 vertical padding prevents gaps; adjust 25px for side spacing */
+  color: #333333;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.main-nav a:hover {
+  color: white;
+  background-color: #2e7d32;
+}
+/* --- Standard Page Content Wrapper --- */
+.page-content {
+  padding: 40px;
+}
+
+.hero-content {
+  padding: 160px 40px;
+  background-image: url("../Images/gogreen.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: rgba(0, 0, 0, 0.3);
+  background-blend-mode: overlay;
+  font-size: 35px;
+  font-weight: bold;
+  color: white;
+}
+
+.form-body {
+  display: flex;
+  justify-content: center; /* Horizontally centers the form */
+  align-items: center; /* Vertically centers the form */
+  padding: 60px 0;
+  margin: 0;
+  background-color: #f5f5f5; /*light gray background */
+}
+.form {
+  border: 1px solid #e0e0e0;
+  padding: 50px;
+  background-color: #ffffff;
+  max-width: 450px;
+  width: 100%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* clean shadow */
+  border-radius: 8px; /* rounded corners */
+}
+.form input[type="submit"] {
+  width: 100%;
+  padding: 14px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: green;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+
+  margin-top: 10px;
+}
+.form input[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+.form input[type="email"],
+.form input[type="password"],
+.form input[type="text"],
+.form input[type="number"] {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+}
+
+.form select {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #cccccc;
+    border-radius: 4px ;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    color: #333333;
+    cursor: pointer;
+    font-family: Times New Roman, serif;
+}
+
+.form .join {
+  background-color: green;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 25px;
+  width: 100%; /* Forces button to fit nicely inside the link wrapper */
+}
+
+.page-content {
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+  background-color: #f5f5f5; /*light gray background */
+}
+.our-mission {
+  font-size: 20px;
+  width: 70%;
+  height: fit-content;
+  margin: 0;
+  padding: 40px;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.search-container {
+  display: flex;
+  width: 90%;
+  margin: 30px auto;
+  height: fit-content;
+}
+
+.search-container input[type="text"] {
+  flex: 1; /* Forces the input field to take up all remaining available space */
+  padding: 15px 20px;
+  font-size: 20px;
+  border: 2px solid;
+}
+.search-container input[type="submit"] {
+  padding: 15px 30px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: green;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 10px; /* Adds space between the input field and the submit button */
+}
+.search-container input[type="submit"]:hover {
+  background-color: grey;
+  color: black;
+}
+
+.search-section {
+  background-color: #f5f5f5;
+  height: fit-content;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.programs-section {
+  display: grid;
+
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 25px;
+  padding: 30px;
+  background-color: #f5f5f5;
+  width: 100%;
+}
+
+.program-card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+}
+
+.program-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.card-content a {
+  align-self: flex-end; /* Pushes the entire link container to the right side */
+  text-decoration: none; /* Removes any accidental link lines */
+  margin-top: 15px;
+}
+.card-content {
+  padding: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-content h3 {
+  font-size: 18px;
+  color: #333333;
+  margin-bottom: 8px;
+}
+
+.card-content .location {
+  color: black;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.card-content .time,
+.card-content .duration {
+  font-size: 14px;
+  color: #666666;
+  margin: 5px 0;
+}
+
+.card-content .tag {
+  display: inline-block;
+  font-size: 13px;
+  color: #b0bec5;
+  margin-top: 15px;
+}
+
+.card-content .join {
+  background-color: green;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 25px;
+  width: 100%; /* Forces button to fit nicely inside the link wrapper */
+}
+
+.card-content .join:hover {
+  background-color: grey;
+  color: black;
+}
