@@ -75,7 +75,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             </div>
         </div>
         <div class="header-right">
-            <a href="profile.php" class="profile-btn">Admin Profile</a>
+            <a href="profile.php" class="profile-btn">Profile</a>
         </div>
     </header>
 
@@ -88,7 +88,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <div class="form-body">
         <form class="form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <h2 style="color: red; text-align: center; font-weight: bold;"><?= $errorMessage ?></h2><br>
-            <h1>Profile</h1>
+            <h1>Admin Profile</h1>
             <br>
 
             <label for="username">Current Username:</label>

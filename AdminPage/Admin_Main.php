@@ -146,6 +146,7 @@ if (!isset($_SESSION["id"]) || $_SESSION["role"] !== 'admin') {
             </div>
           </div>
       </div>
+    </div>
 
     <div class="aprove">
       <div class="requestHome">
