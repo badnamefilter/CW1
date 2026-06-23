@@ -1,7 +1,27 @@
 <?php
 session_start();
+require_once("../database.php");
+global $connection;
 if (!isset($_SESSION["id"])) {
     header("Location: ../UserLogin/login.php");
+    exit();
+}
+
+$user_id = $_SESSION['id'];
+$program_id = $_GET['program_id'] ?? 0;
+
+if ($program_id > 0) {
+    //check user alredy request this event before or not
+    $check_sql = "SELECT * FROM user_program WHERE user_id ='$user_id' AND program_id = '$program_id'";
+    $check_result = mysqli_query($connection, $check_sql);
+
+    if (mysqli_num_rows($check_result) == 0) {
+        //if haven't request,it will add a new record and status show pending
+        $insert_sql = "INSERT INTO user_program (user_id, program_id, status) VALUE ('$user_id' , '$program_id' , 'Pending')";
+        mysqli_query($connection, $check_sql);
+    }
+} else {
+    header("Location: program.php");
     exit();
 }
 ?>

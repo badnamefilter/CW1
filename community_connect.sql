@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jun 15, 2026 at 10:44 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Host: localhost
+-- Generation Time: Jun 23, 2026 at 04:48 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -58,7 +58,9 @@ CREATE TABLE `program` (
   `title` varchar(150) NOT NULL,
   `description` text NOT NULL,
   `event_date` date NOT NULL,
-  `location` varchar(200) NOT NULL
+  `location` varchar(200) NOT NULL,
+  `time` varchar(50) NOT NULL,
+  `duration` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------

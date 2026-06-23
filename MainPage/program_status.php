@@ -1,9 +1,16 @@
 <?php
 session_start();
+require_once("../database.php");
+global $connection;
 if (!isset($_SESSION["id"])) {
     header("Location: ../UserLogin/login.php");
     exit();
 }
+
+$user_id = $_SESSION["id"];
+
+$request_sql = "SELECT * FROM user_program WHERE user_id = '$user_id' ORDER BY id DESC";
+$request_result = mysqli_query($connection, $request_sql);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -54,64 +61,51 @@ if (!isset($_SESSION["id"])) {
     <div class="page-content">
         <div class="programs-section">
 
+            <?php
+            if ($request_result && mysqli_num_rows($request_result) > 0) {
+                while ($request_row = mysqli_fetch_assoc($request_result)) {
+                    $program_id = $request_row['program_id'];
+                    $status = $request_row['status']; //have Pending, Approved, Rejected
+                    $reg_date = $request_row['Reg_date']; //user Register date
 
-            <div class="program-card">
-                <img src="../Images/gotong-royong.jpg" alt="https://www.mbsj.gov.my/ms/gotong-royong-0">
-                <div class="card-content">
-                    <h3 name="title">Program title</h3>
-                    <p class="location" name="location">no , taman , city , postcode, state , country</p>
-                    <p class="event_time" name="event_time">🕒 6:30 AM</p>
-                    <p class="duration" name="duration">2 hours</p>
-                    <p class="date" name="date">11/6/2026</p>
-                    <p class="description" name="description">this program is good</p>
-                    <label>joined date: </label>
-                    <p class="Reg_date" name="Reg_date">11/6/2026</p>
-                    <div class="status-badge">Pending approval</div>
-
-                    <button class="join" value="cancel">cancel</button>
-                </div>
-            </div>
+                    //use program id go program take all data for the program
+                    $program_sql = "SELECT * FROM program WHERE id = '$program_id'";
+                    $program_result = mysqli_query($connection, $program_sql);
+                    $program_row = mysqli_fetch_assoc($program_result);
 
 
+                    if ($program_row) {
+            ?>
 
-            <div class="program-card">
-                <img src="../Images/gotong-royong.jpg" alt="https://www.mbsj.gov.my/ms/gotong-royong-0">
-                <div class="card-content">
-                    <h3 name="title">Program title</h3>
-                    <p class="location" name="location">no , taman , city , postcode, state , country</p>
-                    <p class="event_time" name="event_time">🕒 6:30 AM</p>
-                    <p class="duration" name="duration">2 hours</p>
-                    <p class="date" name="date">11/6/2026</p>
-                    <p class="description" name="description">this program is good</p>
-                    <label>joined date: </label>
-                    <p class="Reg_date" name="Reg_date">11/6/2026</p>
-                    <div class="status-badge">Approved</div>
-                    <button class="join" value="cancel">cancel</button>
-                </div>
-            </div>
+                        <div class="program-card">
+                            <img src="../Images/gotong-royong.jpg" alt="https://www.mbsj.gov.my/ms/gotong-royong-0">
 
+                            <div class="card-content">
+                                <h3><?php echo $program_row['id']; ?>.<?php echo htmlspecialchars($program_row['title']); ?></h3>
+                                <p class="location">Location:<?php echo htmlspecialchars($program_row['location']); ?></p>
+                                <p class="time">Time🕒:<?php echo htmlspecialchars($program_row['time']); ?></p>
+                                <p class="duration">Duration:<?php echo htmlspecialchars($program_row['duration']); ?></p>
+                                <p class="date">Date:<?php echo htmlspecialchars($program_row['event_date']); ?></p>
+                                <p class="description">Description:<?php echo htmlspecialchars($program_row['description']); ?></p>
 
+                                <label>joined date: </label>
+                                <p class="Reg_date"><?php echo htmlspecialchars($reg_date); ?></p>
 
-            <div class="program-card">
-                <img src="../Images/gotong-royong.jpg" alt="https://www.mbsj.gov.my/ms/gotong-royong-0">
-                <div class="card-content">
-                    <h3 name="title">Program title</h3>
-                    <p class="location" name="location">no , taman , city , postcode, state , country</p>
-                    <p class="event_time" name="event_time">🕒 6:30 AM</p>
-                    <p class="duration" name="duration">2 hours</p>
-                    <p class="date" name="date">11/6/2026</p>
-                    <p class="description" name="description">this program is good</p>
-                    <label>joined date: </label>
-                    <p class="Reg_date" name="Reg_date">11/6/2026</p>
-                    <div class="status-badge">rejected</div>
-                    <button class="join" value="cancel">cancel</button>
-                </div>
-            </div>
+                                <div class="status-badge"><?php echo htmlspecialchars($status) ?></div>
 
+                                <button class="join" value="cancel">cancel</button>
+                            </div>
+                        </div>
+
+            <?php
+                    }
+                } //while how many request event;
+            } else {
+                echo "<p>You haven't joined any programs yet.</p>";
+            }
+            ?>
 
         </div>
-
-
     </div>
 </body>
 
