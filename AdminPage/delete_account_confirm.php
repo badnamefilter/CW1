@@ -49,9 +49,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     </header>
 
     <nav class="main-nav">
-        <a href="user_page.php" target="_self">Home</a>
-        <a href="program.php" target="_self">Explore</a>
-        <a href="program_status.php" target="_self">Join Requests</a>
+        <a href="Admin_Main.php" target="_self">Dashboard</a>
+        <a href="Admin_Program.php" target="_self">Program</a>
+        <a href="Admin_Request.php" target="_self">Approvals</a>
     </nav>
 
     <div class="form-body">

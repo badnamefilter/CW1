@@ -73,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </div>
         <div class="header-right">
-            <a href="profile.php" class="profile-btn">Profile</a>
+            <a href="Admin_Profile.php" class="profile-btn">Profile</a>
         </div>
     </header>
 
@@ -110,6 +110,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label for="password">Change Your Password:</label><br><br>
             <input type="text" name="password" id="password" placeholder="Enter a new password to change it!">
             <input type="submit" value="Change" name="changePassword">
+            <br>
+            <br>
+            <br>
+            <a href="../logout.php" class="join" style="background-color:#555; color:white; text-decoration: none; display:inline-block; text-align:center; font-size:21px;">Logout</a>
             <br>
             <br>
             <br>

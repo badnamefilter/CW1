@@ -113,9 +113,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <br>
             <br>
             <br>
+            <a href="../logout.php" class="join" style="background-color:#555; color:white; text-decoration: none; display:inline-block; text-align:center; font-size:21px;">Logout</a>
+            <br>
+            <br>
+            <br>
             <br>
             <a href="delete_account_confirm.php" class="join" style="background-color:red; color:white; text-decoration: none;">Delete Account</a>
-
 
         </form>
     </div>
