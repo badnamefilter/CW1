@@ -14,14 +14,14 @@ if ($page < 1) $page = 1;
 $offset = ($page - 1) * $limit;
 
 //search 
-$search_query = $_GET['search'] ?? "";
+$search_query = $_GET['program'] ?? "";
 
 if (!empty($search_query)) {
-    $count_sql = "SELECT * FROM program WHERE title LIKE '%$search_query%' OR description	LIKE '%$search_query%";
+    $count_sql = "SELECT COUNT(*) AS total FROM program WHERE title LIKE '%$search_query%'";
     $count_result = mysqli_query($connection, $count_sql);
     $total_rows = mysqli_fetch_assoc($count_result)['total'];
 
-    $sql = "SELECT * FROM program  WHERE title LIKE '%$search_query%' OR description LIKE '%$search_query%' LIMIT OFFSET $offset";
+    $sql = "SELECT * FROM program  WHERE title LIKE '%$search_query%' LIMIT $limit OFFSET $offset";
 } else {
     $count_sql = "SELECT COUNT(*) AS total FROM program";
     $count_result = mysqli_query($connection, $count_sql);

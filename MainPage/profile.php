@@ -1,8 +1,7 @@
 <?php
-
-require_once("../database.php");
-
 session_start();
+require_once("../database.php");
+global $connection;
 if (!isset($_SESSION["id"])) {
     header("Location: ../UserLogin/login.php");
     exit();
@@ -10,7 +9,7 @@ if (!isset($_SESSION["id"])) {
 
 $errorMessage = "";
 
-if($_SERVER["REQUEST_METHOD"] == "POST"){
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $id = $_SESSION["id"];
     $username = isset($_POST["username"]) && !empty($_POST["username"]) ? $_POST["username"] : "";
@@ -18,18 +17,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $password = isset($_POST["password"]) && !empty($_POST["password"]) ? $_POST["password"] : "";
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-    if (isset($_POST["changeUsername"]) && !($username == "")){
+    if (isset($_POST["changeUsername"]) && !($username == "")) {
         $sql = "UPDATE account
                 SET username = '$username'
                 WHERE id = '$id';";
 
         mysqli_query($connection, $sql);
         $_SESSION["username"] = $username;
-    } else if (isset($_POST["changeUsername"]) && $username == ""){
+    } else if (isset($_POST["changeUsername"]) && $username == "") {
         $errorMessage = "Please enter a valid username!";
     }
 
-    if (isset($_POST["changeEmail"]) && !($email == "")){
+    if (isset($_POST["changeEmail"]) && !($email == "")) {
         $sql = "UPDATE account
                 SET email = '$email'
                 WHERE id = '$id';";
@@ -40,7 +39,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $errorMessage = "Please enter a valid email!";
     }
 
-    if (isset($_POST["changePassword"]) && !($password == "")){
+    if (isset($_POST["changePassword"]) && !($password == "")) {
         $sql = "UPDATE account
                 SET password = '$hashedPassword'
                 WHERE id = '$id';";
@@ -49,7 +48,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     } else if (isset($_POST["changePassword"]) && ($password == "")) {
         $errorMessage = "Please enter a valid password!";
     }
-
 }
 
 
@@ -96,7 +94,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <br>
             <input type="text" name="username" id="username" placeholder="Enter a new username to change it!">
             <input type="submit" value="Change" name="changeUsername">
-    
+
             <br>
             <br>
 
