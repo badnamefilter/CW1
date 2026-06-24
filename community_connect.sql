@@ -22,7 +22,6 @@ SET time_zone = "+00:00";
 --
 
 -- --------------------------------------------------------
-
 --
 -- Table structure for table `account`
 --
@@ -56,11 +55,11 @@ INSERT INTO `account` (`id`, `username`, `email`, `password`, `role`, `Reg_date`
 CREATE TABLE `program` (
   `id` int(11) NOT NULL,
   `title` varchar(150) NOT NULL,
-  `description` text NOT NULL,
   `event_date` date NOT NULL,
+  `start_time` time NOT NULL,
+  `end_time` time NOT NULL,
   `location` varchar(200) NOT NULL,
-  `time` varchar(50) NOT NULL,
-  `duration` varchar(50) NOT NULL
+  `description` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
