@@ -9,7 +9,7 @@ if (!isset($_SESSION["id"])) {
 
 //pagination
 $limit = 6; //show limit 6 program
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1; //get now have how many page,default page 1
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1; //get now have how many page, default page 1
 if ($page < 1) $page = 1;
 $offset = ($page - 1) * $limit;
 
