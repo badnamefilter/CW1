@@ -93,6 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     const endEl = document.getElementById("program_endtime");
     endEl.textContent = endEl.textContent.replace(/-/g, " ");
+    
 </script>
 </body>
 </html>
