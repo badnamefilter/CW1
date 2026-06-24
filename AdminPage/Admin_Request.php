@@ -5,15 +5,27 @@ if (!isset($_SESSION["id"]) || $_SESSION["role"] !== 'admin') {
     header("Location: ../UserLogin/login.php");
     exit();
 }
+
+if (isset($_GET['action']) && isset($_GET['id'])) {
+    $action = $_GET['action'];
+    $req_id = $_GET['req_id'];
+}
+
+if ($action == 'approve') {
+    $update_sql = "UPDATE user_program SET req_id = id";
+}
+
 ?>
 
 <!DOCTYPE html>
 <html>
-    <head>
-        <link rel="stylesheet" href="../CSS/admin.css">  
-    </head>
-    <body>
-            <header class="top-header">
+
+<head>
+    <link rel="stylesheet" href="../CSS/admin.css">
+</head>
+
+<body>
+    <header class="top-header">
         <div class="header-left">
             <h1 class="brand-title">CommunityConnect</h1>
             <span class="divider">|</span>
@@ -48,7 +60,7 @@ if (!isset($_SESSION["id"]) || $_SESSION["role"] !== 'admin') {
                 <button class="accept-button">Accept</button>
                 <button class="reject-button">Reject</button>
             </div>
-        </div>  
+        </div>
 
         <div class="requests-info">
             <div class="requests-person"> <!-- Person 2-->
@@ -60,7 +72,7 @@ if (!isset($_SESSION["id"]) || $_SESSION["role"] !== 'admin') {
                 <button class="accept-button">Accept</button>
                 <button class="reject-button">Reject</button>
             </div>
-        </div>  
+        </div>
 
         <div class="requests-info">
             <div class="requests-person"> <!-- Person 3-->
@@ -72,7 +84,7 @@ if (!isset($_SESSION["id"]) || $_SESSION["role"] !== 'admin') {
                 <button class="accept-button">Accept</button>
                 <button class="reject-button">Reject</button>
             </div>
-        </div>  
+        </div>
 
         <div class="requests-info">
             <div class="requests-person"> <!-- Person 4-->
@@ -84,8 +96,9 @@ if (!isset($_SESSION["id"]) || $_SESSION["role"] !== 'admin') {
                 <button class="accept-button">Accept</button>
                 <button class="reject-button">Reject</button>
             </div>
-        </div>  
+        </div>
     </div>
-</div>
-    </body>
+    </div>
+</body>
+
 </html>

@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once("../database.php");
+global $connection;
 if (!isset($_SESSION["id"]) || $_SESSION["role"] !== 'admin') {
     header("Location: ../UserLogin/login.php");
     exit();
@@ -26,11 +27,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!DOCTYPE html>
 <html>
-    <head>
-        <link rel="stylesheet" href="../CSS/admin.css">  
-    </head>
-    <body>
-            <header class="top-header">
+
+<head>
+    <link rel="stylesheet" href="../CSS/admin.css">
+</head>
+
+<body>
+    <header class="top-header">
         <div class="header-left">
             <h1 class="brand-title">CommunityConnect</h1>
             <span class="divider">|</span>
@@ -50,9 +53,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <a href="Admin_Request.php" target="_self">Approvals</a>
     </nav>
 
-<div class="ctitle">
-    <h1>Creating Program:</h1>
-</div>
+    <div class="ctitle">
+        <h1>Creating Program:</h1>
+    </div>
 
 <form class="cProgram" action="creating_program.php" method="POST">
     <label class="detail" for="programName">Name:</label>
@@ -74,12 +77,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <textarea class="normal dd" id="program_description" name="program_description" rows="5" required></textarea>
     <br><br>
 
-    <div class="form-buttons">
-        <input class="submit-btn" type="submit" value="Submit">
-        <input class="cancel-btn" type="button" value="Cancel" onclick="window.location.href='Admin_Program.php'">
-        <input class="reset-btn" type="reset" value="Reset Form">
-    </div>
-</form>
+        <div class="form-buttons">
+            <input class="submit-btn" type="submit" value="Submit">
+            <input class="cancel-btn" type="button" value="Cancel" onclick="window.location.href='Admin_Program.php'">
+            <input class="reset-btn" type="reset" value="Reset Form">
+        </div>
+    </form>
 
 <script>
 
@@ -93,5 +96,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     element.textContent = element.textContent.replace(/-/g, " ");
 </script>
 
-    </body>
+</body>
+
 </html>
