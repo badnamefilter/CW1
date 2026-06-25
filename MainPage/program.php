@@ -25,10 +25,10 @@ if ($search_query !== "") {
     //CURDATE() means get today date data in here use to show after CURDATE hide program date before CURDATE(but time is useless only date)
     //LIMIT use to make the displayed page simple and attractive limit show program in 1 page
     //OFFSET use to create a new page and start to show after limit program(for example:limit=6,offset will show 0-5 in page 1,6-10 page 2)
-    $count_sql = "SELECT COUNT(*) AS total FROM program
-    WHERE title LIKE '%$search_query%'
-    AND event_date >= CURDATE()
-    AND id NOT IN (SELECT program_id FROM user_program WHERE user_id= '$user_id')";
+        $count_sql = "SELECT COUNT(*) AS total FROM program
+        WHERE title LIKE '%$search_query%'
+        AND event_date >= CURDATE()
+        AND id NOT IN (SELECT program_id FROM user_program WHERE user_id= '$user_id')";
 
     $count_result = mysqli_query($connection, $count_sql);
     $total_rows = mysqli_fetch_assoc($count_result)['total'];
@@ -54,6 +54,8 @@ if ($search_query !== "") {
 
 $result = mysqli_query($connection, $sql);
 $total_pages = ceil($total_rows / $limit); //calculate total have how many page
+
+
 
 ?>
 <!DOCTYPE html>
@@ -112,15 +114,14 @@ $total_pages = ceil($total_rows / $limit); //calculate total have how many page
                         <img src="../Images/gotong-royong.jpg" alt="https://www.mbsj.gov.my/ms/gotong-royong-0">
 
                         <div class="card-content">
-                            <h3><?php echo $row['id']; ?>.<?php echo htmlspecialchars($row['title']); ?></h3>
-                            <p class="location">Location:<?php echo htmlspecialchars($row['location']); ?></p>
-                            <p class="time">Time🕒:<?php echo htmlspecialchars($row['time']); ?></p>
-                            <p class="duration">Duration:<?php echo htmlspecialchars($row['duration']); ?></p>
-                            <p class="date">Date:<?php echo htmlspecialchars($row['event_date']); ?></p>
-                            <p class="description">Description:<?php echo htmlspecialchars($row['description']); ?></p>
+                            <h3><?php echo ($row['title']); ?></h3>
+                            <p class="location">Location: <?php echo ($row['location']); ?></p>
+                            <p class="time">Time🕒: <?php echo date("g:i A", strtotime($row['start_time'])) . " - " . date("g:i A", strtotime($row['end_time'])); ?></p><br>
+                            <p class="date">Date: <?php echo date("jS F Y", strtotime($row['event_date'])); ?></p><br>
+                            <p class="description">Description: <?php echo ($row['description']); ?></p>
 
                             <a href="join_request_submitted.php?program_id=<?php echo $row['id']; ?>">
-                                <button class="join">join</button>
+                                <button class="join">Join</button>
                             </a>
                         </div>
                     </div>
@@ -129,8 +130,10 @@ $total_pages = ceil($total_rows / $limit); //calculate total have how many page
             } else {
                 echo "<p>No programs found.</p>";
             }
-            ?>
-            <?php if ($total_rows > 0): ?>
+            ?>            
+        </div>
+
+        <?php if ($total_rows > 0): ?>
                 <div style="text-align: center; margin: 40px 0; font-family: Arial, sans-serif; font-weight: bold;">
 
                     <?php if ($page > 1): ?>
@@ -154,9 +157,6 @@ $total_pages = ceil($total_rows / $limit); //calculate total have how many page
 
                 </div>
             <?php endif; ?>
-
-
-        </div>
     </div>
 
 </body>

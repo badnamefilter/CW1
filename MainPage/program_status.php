@@ -107,22 +107,19 @@ if (isset($_GET['action']) && $_GET['action'] == 'cancel' && isset($_GET['req_id
                             <img src="../Images/gotong-royong.jpg" alt="https://www.mbsj.gov.my/ms/gotong-royong-0">
 
                             <div class="card-content">
-                                <h3><?php echo $program_row['id']; ?>.<?php echo htmlspecialchars($program_row['title']); ?></h3>
-                                <p class="location">Location:<?php echo htmlspecialchars($program_row['location']); ?></p>
-                                <p class="time">Time🕒:<?php echo htmlspecialchars($program_row['time']); ?></p>
-                                <p class="duration">Duration:<?php echo htmlspecialchars($program_row['duration']); ?></p>
-                                <p class="date">Date:<?php echo htmlspecialchars($program_row['event_date']); ?></p>
-                                <p class="description">Description:<?php echo htmlspecialchars($program_row['description']); ?></p>
+                                <h3><?php echo htmlspecialchars($program_row['title']); ?></h3>
+                                <p class="location">Location: <?php echo htmlspecialchars($program_row['location']); ?></p>
+                                <p class="time">Time🕒: <?= date("g:i A", strtotime($program_row['start_time'])) . " - " . date("g:i A", strtotime($program_row['end_time'])) ?></p><br>
+                                <p class="date">Date: <?=date("jS F Y", strtotime($program_row['event_date']))?></p><br>
+                                <p class="description">Description: <?php echo htmlspecialchars($program_row['description']); ?></p><br>
+                                <p class="Reg_date">Registration Timestamp: <?=date("jS F Y, g:i A", strtotime($reg_date))?></p>
 
-                                <label>joined date: </label>
-                                <p class="Reg_date"><?php echo htmlspecialchars($reg_date); ?></p>
+                                <div class="status-badge" style="background-color: #ffc107; color: #000;"><?=$status?></div>
 
-                                <div class="status-badge" style="background-color: #ffc107; color: #000;"><?php echo htmlspecialchars($status) ?></div>
-
-                                <a href="program_status.php?action=cancel&req_id=<?php echo $program_id; ?>"
+                                <a href="program_status.php?action=cancel&req_id=<?=$program_id?>"
                                     class="join"
                                     style="text-decoration:none; display:inline-block; text-align:center; background-color: #dc3545;">
-                                    cancel
+                                    Cancel
                                 </a>
                             </div>
                         </div>
@@ -134,6 +131,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'cancel' && isset($_GET['req_id
             }
             ?>
         </div>
+        
         <h2 class="section-title">Upcoming Programs</h2>
         <div class="programs-section">
             <?php
@@ -150,53 +148,35 @@ if (isset($_GET['action']) && $_GET['action'] == 'cancel' && isset($_GET['req_id
             if ($upcoming_result && mysqli_num_rows($upcoming_result) > 0) {
                 while ($request_row = mysqli_fetch_assoc($upcoming_result)) {
 
-            $title = htmlspecialchars($request_row['title']);
-            $location = htmlspecialchars($request_row['location']);
-            $eventdate = htmlspecialchars($request_row['event_date']);
-            $description = htmlspecialchars($request_row['description']);
-            $reg_date = 
-            $status = 
-
-            $starttime = htmlspecialchars($request_row['start_time']);
-            $endtime = htmlspecialchars($request_row['end_time']);
-
-            $timediff = strtotime($endtime) - strtotime($starttime);
-            $hours = floor($timediff / 3600);
-            $minutes = floor(($timediff % 3600) / 60);
-            $duration = "$hours hours $minutes minutes";
-
             ?>
 
                     <div class="program-card">
                         <img src="../Images/gotong-royong.jpg" alt="https://www.mbsj.gov.my/ms/gotong-royong-0">
 
                         <div class="card-content">
-                            <h3><?=$title?></h3>
-                            <p class="location">Location:<?=$location?></p>
-                            <p class="time">Time🕒:<?= $starttime . "-" . $endtime ?></p>
-                            <p class="duration">Duration<?=$duration?></p>
-                            <p class="date">Date:<?=$eventdate?></p>
-                            <p class="description">Description:<?=$description?></p>
+                            <h3><?php echo htmlspecialchars($request_row['title']); ?></h3>
+                                <p class="location">Location: <?php echo htmlspecialchars($request_row['location']); ?></p>
+                                <p class="time">Time🕒: <?= date("g:i A", strtotime($request_row['start_time'])) . " - " . date("g:i A", strtotime($request_row['end_time'])) ?></p><br>
+                                <p class="date">Date: <?=date("jS F Y", strtotime($request_row['event_date']))?></p><br>
+                                <p class="description">Description: <?php echo htmlspecialchars($request_row['description']); ?></p><br>
+                                <p class="Reg_date">Registration Timestamp: <?=date("jS F Y, g:i A", strtotime($request_row['Reg_date']))?></p>
 
-                            <label>joined date: </label>
-                            <p class="Reg_date"><?php echo htmlspecialchars($request_row['Reg_date']); ?></p>
 
                             <div class="status-badge" style="background-color: #28a745; color: #fff;"><?php echo htmlspecialchars($request_row['status']) ?></div>
 
-                            <a href="program_status.php?action=cancel&req_id=<?php echo $request_row['program_id']; ?>"
-                                class="join"
-                                style="text-decoration:none; display:inline-block; text-align:center; background-color: #dc3545;color: white;">
-                                cancel
+                            <a href="program_status.php?action=cancel&req_id=<?php echo $request_row['program_id']; ?>" class="join" style="text-decoration:none; display:inline-block; text-align:center; background-color: #dc3545;color: white;">
+                                Cancel
                             </a>
                         </div>
                     </div>
-        </div>
+        
 <?php
                 }
             } else {
                 echo "<p style='margin-left: 20px; color: #888;'>You have no upcoming programs.</p>";
             }
 ?>
+        </div>
     </div>
 </body>
 

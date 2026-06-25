@@ -70,12 +70,12 @@ if ($program_id > 0) {
 
     <div class="form-body">
         <form class="form">
-            <h4>your request is submitted</h4>
+            <h4>Thank you for submitting a request!</h4>
             <br>
-            <p>we will update your request status within 2 days </p>
-            <p>you can check your status in "join request" page</p>
+            <p>Please be patient, we will update your request status within 2 days. </p><br>
+            <p>You can check your request status in the "My Activities" page!</p>
             <br>
-            <a href="program_status.php" class="join" style="background-color:green; color:white;">check your status</a>
+            <a href="program_status.php" class="join" style="background-color:green; color:white;">Check Status</a>
 
         </form>
     </div>
