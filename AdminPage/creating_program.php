@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $programDescription = isset($_POST['program_description']) && !empty($_POST["program_description"]) ? $_POST["program_description"] : "";
 
     $sql = "INSERT INTO program (title, description, event_date, location, start_time, end_time)
-            VALUES ('$programName','$programDescription',$programDate,'$programLocation','$programStartTime','$programEndTime');";
+            VALUES ('$programName','$programDescription','$programDate','$programLocation','$programStartTime','$programEndTime');";
     
      mysqli_query($connection, $sql);
 }
@@ -85,17 +85,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </form>
 
 <script>
+    const dateEl = document.getElementById("program_date");
+    dateEl.textContent = dateEl.textContent.replace(/-/g, " ");
 
-    const element = document.getElementById("program_date");    
-    element.textContent = element.textContent.replace(/-/g, " ");
+    const startEl = document.getElementById("program_starttime");
+    startEl.textContent = startEl.textContent.replace(/-/g, " ");
 
-    const element = document.getElementById("program_starttime");
-    element.textContent = element.textContent.replace(/-/g, " ");
-
-    const element = document.getElementById("program_endtime");
-    element.textContent = element.textContent.replace(/-/g, " ");
+    const endEl = document.getElementById("program_endtime");
+    endEl.textContent = endEl.textContent.replace(/-/g, " ");
+    
 </script>
-
 </body>
-
 </html>
