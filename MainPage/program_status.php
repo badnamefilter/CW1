@@ -42,7 +42,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'cancel' && isset($_GET['req_id
         text-align: center;
         text-transform: capitalize;
         /* Automatically fixes 'rejected' to 'Rejected' */
-        margin-top: 15px;
+        margin-top: auto;
     }
 
     .section-title {

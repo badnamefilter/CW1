@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <input class="normal" type="text" id="programName" name="programName" required><br><br>
 
     <label class="detail" for="program_date">Date:</label>
-    <input class="normal" type="date" id="program_date" name="program_date" required><br><br>
+    <input class="normal" type="date" id="program_date" name="program_date" min="<?=date('Y-m-d')?>"required><br><br>
 
     <label class="detail" for="program_starttime"> Start Time:</label>
     <input class="normal" type="time" id="program_starttime" name="program_starttime" required><br><br>
