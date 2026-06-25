@@ -4,10 +4,10 @@ require_once("../database.php");
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 global $connection;
-/*if (!isset($_SESSION["id"])) {
+if (!isset($_SESSION["id"])) {
     header("Location: ../UserLogin/login.php");
     exit();
-}*/
+}
 
 //pagination
 $limit = 6; //show limit 6 program

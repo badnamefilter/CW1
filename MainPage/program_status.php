@@ -2,10 +2,10 @@
 session_start();
 require_once("../database.php");
 global $connection;
-/*if (!isset($_SESSION["id"])) {
+if (!isset($_SESSION["id"])) {
     header("Location: ../UserLogin/login.php");
     exit();
-}*/
+}
 
 $user_id = $_SESSION["id"];
 
@@ -47,7 +47,6 @@ if (isset($_GET['action']) && $_GET['action'] == 'cancel' && isset($_GET['req_id
 
     .section-title {
         margin: 30px 20px 15px 20px;
-        /* 上 30px，右 20px，下 15px，左 20px */
         color: #333;
         border-bottom: 2px solid #eee;
         padding-bottom: 10px;
@@ -135,12 +134,11 @@ if (isset($_GET['action']) && $_GET['action'] == 'cancel' && isset($_GET['req_id
             }
             ?>
         </div>
-        <h2 class="section-title">Upcomming programs</h2>
+        <h2 class="section-title">Upcoming Programs</h2>
         <div class="programs-section">
             <?php
-            //Upcomming(Approved) function
-            $upcoming_sql = "SELECT up.program_id, up.status, up.Reg_date,
-                                    p.title, p.location, p.time, p.duration,p.event_date, p.description
+            //Upcoming(Approved) function
+            $upcoming_sql = "SELECT up.program_id, up.status, up.Reg_date, p.title, p.location, p.start_time, p.end_time, p.event_date, p.description
                              FROM user_program up
                              INNER JOIN program p ON up.program_id=p.id
                              WHERE up.user_id = '$user_id'
@@ -152,18 +150,33 @@ if (isset($_GET['action']) && $_GET['action'] == 'cancel' && isset($_GET['req_id
             if ($upcoming_result && mysqli_num_rows($upcoming_result) > 0) {
                 while ($request_row = mysqli_fetch_assoc($upcoming_result)) {
 
+            $title = htmlspecialchars($request_row['title']);
+            $location = htmlspecialchars($request_row['location']);
+            $eventdate = htmlspecialchars($request_row['event_date']);
+            $description = htmlspecialchars($request_row['description']);
+            $reg_date = 
+            $status = 
+
+            $starttime = htmlspecialchars($request_row['start_time']);
+            $endtime = htmlspecialchars($request_row['end_time']);
+
+            $timediff = strtotime($endtime) - strtotime($starttime);
+            $hours = floor($timediff / 3600);
+            $minutes = floor(($timediff % 3600) / 60);
+            $duration = "$hours hours $minutes minutes";
+
             ?>
 
                     <div class="program-card">
                         <img src="../Images/gotong-royong.jpg" alt="https://www.mbsj.gov.my/ms/gotong-royong-0">
 
                         <div class="card-content">
-                            <h3><?php echo $request_row['program_id']; ?>.<?php echo htmlspecialchars($request_row['title']); ?></h3>
-                            <p class="location">Location:<?php echo htmlspecialchars($request_row['location']); ?></p>
-                            <p class="time">Time🕒:<?php echo htmlspecialchars($request_row['time']); ?></p>
-                            <p class="duration">Duration:<?php echo htmlspecialchars($request_row['duration']); ?></p>
-                            <p class="date">Date:<?php echo htmlspecialchars($request_row['event_date']); ?></p>
-                            <p class="description">Description:<?php echo htmlspecialchars($request_row['description']); ?></p>
+                            <h3><?=$title?></h3>
+                            <p class="location">Location:<?=$location?></p>
+                            <p class="time">Time🕒:<?= $starttime . "-" . $endtime ?></p>
+                            <p class="duration">Duration<?=$duration?></p>
+                            <p class="date">Date:<?=$eventdate?></p>
+                            <p class="description">Description:<?=$description?></p>
 
                             <label>joined date: </label>
                             <p class="Reg_date"><?php echo htmlspecialchars($request_row['Reg_date']); ?></p>
