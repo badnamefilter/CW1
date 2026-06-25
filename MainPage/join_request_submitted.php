@@ -10,15 +10,19 @@ if (!isset($_SESSION["id"])) {
 $user_id = $_SESSION['id'];
 $program_id = $_GET['program_id'] ?? 0;
 
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 if ($program_id > 0) {
     //check user alredy request this event before or not
-    $check_sql = "SELECT * FROM user_program WHERE user_id ='$user_id' AND program_id = '$program_id'";
+    $check_sql = "SELECT * FROM user_program WHERE user_id = $user_id AND program_id = $program_id;";
     $check_result = mysqli_query($connection, $check_sql);
 
-    if (mysqli_num_rows($check_result) == 0) {
+    if ($check_result && mysqli_num_rows($check_result) == 0) {
         //if haven't request,it will add a new record and status show pending
-        $insert_sql = "INSERT INTO user_program (user_id, program_id, status) VALUE ('$user_id' , '$program_id' , 'Pending')";
-        mysqli_query($connection, $check_sql);
+        $insert_sql = "INSERT INTO user_program (user_id, program_id, status, Reg_date) VALUES ($user_id , $program_id , 'Pending',NOW());";
+        mysqli_query($connection, $insert_sql);
     }
 } else {
     header("Location: program.php");
@@ -60,7 +64,8 @@ if ($program_id > 0) {
     <nav class="main-nav">
         <a href="user_page.php" target="_self">Home</a>
         <a href="program.php" target="_self">Explore</a>
-        <a href="program_status.php" target="_self">Join Requests</a>
+        <a href="program_status.php" target="_self">My Activities</a>
+        <a href="history.php" target="_self">History</a>
     </nav>
 
     <div class="form-body">

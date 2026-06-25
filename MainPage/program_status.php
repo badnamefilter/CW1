@@ -9,8 +9,18 @@ if (!isset($_SESSION["id"])) {
 
 $user_id = $_SESSION["id"];
 
-$request_sql = "SELECT * FROM user_program WHERE user_id = '$user_id' ORDER BY id DESC";
-$request_result = mysqli_query($connection, $request_sql);
+//cancel function 
+if (isset($_GET['action']) && $_GET['action'] == 'cancel' && isset($_GET['req_id'])) {
+    $cancel_id = $_GET['req_id'];
+
+    $delete_sql = "DELETE FROM user_program WHERE program_id = '$cancel_id' AND user_id = '$user_id'";
+    mysqli_query($connection, $delete_sql);
+
+    //after delete refresh page
+    header("Location: program_status.php");
+    exit();
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -34,6 +44,14 @@ $request_result = mysqli_query($connection, $request_sql);
         /* Automatically fixes 'rejected' to 'Rejected' */
         margin-top: 15px;
     }
+
+    .section-title {
+        margin: 30px 20px 15px 20px;
+        color: #333;
+        border-bottom: 2px solid #eee;
+        padding-bottom: 10px;
+        font-weight: bold;
+    }
 </style>
 
 <body>
@@ -55,17 +73,25 @@ $request_result = mysqli_query($connection, $request_sql);
     <nav class="main-nav">
         <a href="user_page.php" target="_self">Home</a>
         <a href="program.php" target="_self">Explore</a>
-        <a href="program_status.php" target="_self">Join Requests</a>
+        <a href="program_status.php" target="_self">My Activities</a>
+        <a href="history.php" target="_self">History</a>
     </nav>
 
     <div class="page-content">
+        <h2 class="section-title">Pending Request</h2>
         <div class="programs-section">
 
             <?php
-            if ($request_result && mysqli_num_rows($request_result) > 0) {
-                while ($request_row = mysqli_fetch_assoc($request_result)) {
+            //Pending function
+            $pending_sql = "SELECT * FROM user_program 
+                            WHERE user_id = '$user_id'
+                            AND status='Pending' ORDER BY id DESC"; //DESC is highest to lowest.
+            $pending_result = mysqli_query($connection, $pending_sql);
+
+            if ($pending_result && mysqli_num_rows($pending_result) > 0) {
+                while ($request_row = mysqli_fetch_assoc($pending_result)) {
                     $program_id = $request_row['program_id'];
-                    $status = $request_row['status']; //have Pending, Approved, Rejected
+                    $status = $request_row['status']; //status have Pending, Approved, Rejected
                     $reg_date = $request_row['Reg_date']; //user Register date
 
                     //use program id go program take all data for the program
@@ -91,21 +117,86 @@ $request_result = mysqli_query($connection, $request_sql);
                                 <label>joined date: </label>
                                 <p class="Reg_date"><?php echo htmlspecialchars($reg_date); ?></p>
 
-                                <div class="status-badge"><?php echo htmlspecialchars($status) ?></div>
+                                <div class="status-badge" style="background-color: #ffc107; color: #000;"><?php echo htmlspecialchars($status) ?></div>
 
-                                <button class="join" value="cancel">cancel</button>
+                                <a href="program_status.php?action=cancel&req_id=<?php echo $program_id; ?>"
+                                    class="join"
+                                    style="text-decoration:none; display:inline-block; text-align:center; background-color: #dc3545;">
+                                    cancel
+                                </a>
                             </div>
                         </div>
-
             <?php
                     }
                 } //while how many request event;
             } else {
-                echo "<p>You haven't joined any programs yet.</p>";
+                echo "<p style='margin-left: 20px; color: #888;'>You have no pending requests</p>";
             }
             ?>
-
         </div>
+        <h2 class="section-title">Upcoming Programs</h2>
+        <div class="programs-section">
+            <?php
+            //Upcoming(Approved) function
+            $upcoming_sql = "SELECT up.program_id, up.status, up.Reg_date, p.title, p.location, p.start_time, p.end_time, p.event_date, p.description
+                             FROM user_program up
+                             INNER JOIN program p ON up.program_id=p.id
+                             WHERE up.user_id = '$user_id'
+                             AND up.status='Approved' 
+                             AND p.event_date >= CURDATE()
+                             ORDER BY p.event_date ASC"; //ASC is lowest to highest.
+            $upcoming_result = mysqli_query($connection, $upcoming_sql);
+
+            if ($upcoming_result && mysqli_num_rows($upcoming_result) > 0) {
+                while ($request_row = mysqli_fetch_assoc($upcoming_result)) {
+
+            $title = htmlspecialchars($request_row['title']);
+            $location = htmlspecialchars($request_row['location']);
+            $eventdate = htmlspecialchars($request_row['event_date']);
+            $description = htmlspecialchars($request_row['description']);
+            $reg_date = 
+            $status = 
+
+            $starttime = htmlspecialchars($request_row['start_time']);
+            $endtime = htmlspecialchars($request_row['end_time']);
+
+            $timediff = strtotime($endtime) - strtotime($starttime);
+            $hours = floor($timediff / 3600);
+            $minutes = floor(($timediff % 3600) / 60);
+            $duration = "$hours hours $minutes minutes";
+
+            ?>
+
+                    <div class="program-card">
+                        <img src="../Images/gotong-royong.jpg" alt="https://www.mbsj.gov.my/ms/gotong-royong-0">
+
+                        <div class="card-content">
+                            <h3><?=$title?></h3>
+                            <p class="location">Location:<?=$location?></p>
+                            <p class="time">Time🕒:<?= $starttime . "-" . $endtime ?></p>
+                            <p class="duration">Duration<?=$duration?></p>
+                            <p class="date">Date:<?=$eventdate?></p>
+                            <p class="description">Description:<?=$description?></p>
+
+                            <label>joined date: </label>
+                            <p class="Reg_date"><?php echo htmlspecialchars($request_row['Reg_date']); ?></p>
+
+                            <div class="status-badge" style="background-color: #28a745; color: #fff;"><?php echo htmlspecialchars($request_row['status']) ?></div>
+
+                            <a href="program_status.php?action=cancel&req_id=<?php echo $request_row['program_id']; ?>"
+                                class="join"
+                                style="text-decoration:none; display:inline-block; text-align:center; background-color: #dc3545;color: white;">
+                                cancel
+                            </a>
+                        </div>
+                    </div>
+        </div>
+<?php
+                }
+            } else {
+                echo "<p style='margin-left: 20px; color: #888;'>You have no upcoming programs.</p>";
+            }
+?>
     </div>
 </body>
 

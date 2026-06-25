@@ -1,6 +1,8 @@
 <?php
 session_start();
 require_once("../database.php");
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 global $connection;
 if (!isset($_SESSION["id"])) {
     header("Location: ../UserLogin/login.php");
@@ -13,21 +15,41 @@ $page = isset($_GET['page']) ? (int)$_GET['page'] : 1; //get now have how many p
 if ($page < 1) $page = 1;
 $offset = ($page - 1) * $limit;
 
-//search 
-$search_query = $_GET['program'] ?? "";
+$user_id = $_SESSION['id'];
+//search funtion
+$search_query = ($_GET['program'] ?? "");
 
-if (!empty($search_query)) {
-    $count_sql = "SELECT COUNT(*) AS total FROM program WHERE title LIKE '%$search_query%'";
+if ($search_query !== "") {
+    //LIKE use to find same word program 
+    //NOT IN use to delect already join program don't show to user (First check how many program user join -> NOT IN exclude it)
+    //CURDATE() means get today date data in here use to show after CURDATE hide program date before CURDATE(but time is useless only date)
+    //LIMIT use to make the displayed page simple and attractive limit show program in 1 page
+    //OFFSET use to create a new page and start to show after limit program(for example:limit=6,offset will show 0-5 in page 1,6-10 page 2)
+    $count_sql = "SELECT COUNT(*) AS total FROM program
+    WHERE title LIKE '%$search_query%'
+    AND event_date >= CURDATE()
+    AND id NOT IN (SELECT program_id FROM user_program WHERE user_id= '$user_id')";
+
     $count_result = mysqli_query($connection, $count_sql);
     $total_rows = mysqli_fetch_assoc($count_result)['total'];
 
-    $sql = "SELECT * FROM program  WHERE title LIKE '%$search_query%' LIMIT $limit OFFSET $offset";
+    $sql = "SELECT * FROM program  
+    WHERE title LIKE '%$search_query%' 
+    AND event_date >= CURDATE()
+    AND id NOT IN (SELECT program_id FROM user_program WHERE user_id= '$user_id')
+    LIMIT $limit OFFSET $offset";
 } else {
-    $count_sql = "SELECT COUNT(*) AS total FROM program";
+    $count_sql = "SELECT COUNT(*) AS total FROM program
+    WHERE id NOT IN (SELECT program_id FROM user_program WHERE user_id= '$user_id')
+    AND event_date >= CURDATE()";
+
     $count_result = mysqli_query($connection, $count_sql);
     $total_rows = mysqli_fetch_assoc($count_result)['total'];
 
-    $sql = "SELECT * FROM program LIMIT $limit OFFSET $offset";
+    $sql = "SELECT * FROM program 
+    WHERE id NOT IN (SELECT program_id FROM user_program WHERE user_id= '$user_id')
+    AND event_date >= CURDATE()
+    LIMIT $limit OFFSET $offset";
 }
 
 $result = mysqli_query($connection, $sql);
@@ -67,13 +89,13 @@ $total_pages = ceil($total_rows / $limit); //calculate total have how many page
     <nav class="main-nav">
         <a href="user_page.php" target="_self">Home</a>
         <a href="program.php" target="_self">Explore</a>
-        <a href="program_status.php" target="_self">Join Requests</a>
-
+        <a href="program_status.php" target="_self">My Activities</a>
+        <a href="history.php" target="_self">History</a>
     </nav>
 
     <div class="search-section">
         <form action="program.php" method="GET" class="search-container">
-            <input type="text" name="program" placeholder="Search for programs, events, or keywords..." required>
+            <input type="text" name="program" placeholder="Search for programs, events, or keywords...">
             <input type="submit" value="Search">
         </form>
     </div>
@@ -108,19 +130,31 @@ $total_pages = ceil($total_rows / $limit); //calculate total have how many page
                 echo "<p>No programs found.</p>";
             }
             ?>
-            <div>
-                <?php if ($page > 1): ?>
-                    <a href="program.php?page=<?php echo $page - 1; ?>&program=<?php echo urlencode($search_query);
-                                                                                //urlencode is usde to convert certain special characters(exp: space and ?)into URL Format
-                                                                                ?>">Prev Page</a>
-                <?php endif; ?>
+            <?php if ($total_rows > 0): ?>
+                <div style="text-align: center; margin: 40px 0; font-family: Arial, sans-serif; font-weight: bold;">
 
-                <span> | Page <?php echo $page; ?> of <?php echo $total_pages == 0 ? 1 : $total_pages; ?> | </span>
+                    <?php if ($page > 1): ?>
+                        <a href="program.php?page=<?php echo $page - 1; ?>&program=<?php echo urlencode($search_query); //urlencode is usde to convert certain special characters(exp: space and ?)into URL Format
+                                                                                    ?>"
+                            style="display: inline-block; padding: 8px 18px; margin: 0 10px; border: 2px solid #333; color: #333; text-decoration: none; border-radius: 4px; background-color: transparent;">
+                            Prev Page
+                        </a>
+                    <?php endif; ?>
 
-                <?php if ($page < $total_pages): ?>
-                    <a href="program.php?page=<?php echo $page + 1; ?>&program=<?php echo urlencode($search_query); ?>">Next Page</a>
-                <?php endif; ?>
-            </div>
+                    <span style="display: inline-block; margin: 0 10px; color: #666; vertical-align: middle;">
+                        Page <?php echo $page; ?> of <?php echo $total_pages; ?>
+                    </span>
+
+                    <?php if ($page < $total_pages): ?>
+                        <a href="program.php?page=<?php echo $page + 1; ?>&program=<?php echo urlencode($search_query); ?>"
+                            style="display: inline-block; padding: 8px 18px; margin: 0 10px; border: 2px solid #333; color: #333; text-decoration: none; border-radius: 4px; background-color: transparent;">
+                            Next Page
+                        </a>
+                    <?php endif; ?>
+
+                </div>
+            <?php endif; ?>
+
 
         </div>
     </div>
