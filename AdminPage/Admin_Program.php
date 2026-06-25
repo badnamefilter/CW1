@@ -8,17 +8,17 @@ if (!isset($_SESSION["id"]) || $_SESSION["role"] !== 'admin') {
 
     $search = isset($_GET['search']) && !empty($_GET['search']) ? $_GET['search'] : "";
 
-    $sql = "SELECT title, event_date, start_time, end_time, location, description
+    $sql = "SELECT id, title, event_date, start_time, end_time, location, description
             FROM program 
             ORDER BY event_date ASC";
     if ($search !== "") {
         $safe = mysqli_real_escape_string($connection, $search);
-        $sql = "SELECT title, event_date, start_time, end_time, location, description
+        $sql = "SELECT id, title, event_date, start_time, end_time, location, description
                 FROM program 
                 WHERE title LIKE '%$safe%' 
                 ORDER BY event_date ASC";
     } else {
-        $sql = "SELECT title, event_date, start_time, end_time, location, description
+        $sql = "SELECT id, title, event_date, start_time, end_time, location, description
                 FROM program 
                 ORDER BY event_date ASC";
     }
@@ -87,12 +87,12 @@ if (!isset($_SESSION["id"]) || $_SESSION["role"] !== 'admin') {
                     </div>
                 </div>
                 <div class="program-actions">
-                    <a href="Admin_Program_edit.php" class="edit-button">Edit</a>
+                    <a href="Admin_Program_edit.php?id=<?= $row['id'] ?>" class="edit-button">Edit</a>
                 </div>
             </div>
         <?php endwhile; ?>
     <?php else: ?>
-        <p>No programs found.</p>
+        <p class="nothing">No programs found.</p>
     <?php endif; ?>
     </div>
       

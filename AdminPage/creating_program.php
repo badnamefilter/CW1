@@ -19,7 +19,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "INSERT INTO program (title, description, event_date, location, start_time, end_time)
             VALUES ('$programName','$programDescription','$programDate','$programLocation','$programStartTime','$programEndTime');";
     
-     mysqli_query($connection, $sql);
+    mysqli_query($connection, $sql);
+    header("Location: Admin_Program.php?success=created");
+    exit();
 }
 
 
