@@ -107,11 +107,15 @@ if (isset($_GET['action']) && $_GET['action'] == 'cancel' && isset($_GET['req_id
                             <img src="../Images/gotong-royong.jpg" alt="https://www.mbsj.gov.my/ms/gotong-royong-0">
 
                             <div class="card-content">
+
                                 <h3><?php echo htmlspecialchars($program_row['title']); ?></h3>
                                 <p class="location">Location: <?php echo htmlspecialchars($program_row['location']); ?></p>
                                 <p class="time">Time🕒: <?= date("g:i A", strtotime($program_row['start_time'])) . " - " . date("g:i A", strtotime($program_row['end_time'])) ?></p><br>
                                 <p class="date">Date: <?=date("jS F Y", strtotime($program_row['event_date']))?></p><br>
-                                <p class="description">Description: <?php echo htmlspecialchars($program_row['description']); ?></p><br>
+                                <p class="description">Description: <?php echo htmlspecialchars($program_row['description']); ?></p>
+                                <button type="button" class="read-more-link" onclick="openDescModal('<?= addslashes(htmlspecialchars($program_row['title'])) ?>', '<?= addslashes(htmlspecialchars($program_row['description'])) ?>')">
+                                Read More...
+                                </button>
                                 <p class="Reg_date">Registration Timestamp: <?=date("jS F Y, g:i A", strtotime($reg_date))?></p>
 
                                 <div class="status-badge" style="background-color: #ffc107; color: #000;"><?=$status?></div>
@@ -154,11 +158,14 @@ if (isset($_GET['action']) && $_GET['action'] == 'cancel' && isset($_GET['req_id
                         <img src="../Images/gotong-royong.jpg" alt="https://www.mbsj.gov.my/ms/gotong-royong-0">
 
                         <div class="card-content">
-                            <h3><?php echo htmlspecialchars($request_row['title']); ?></h3>
+                                <h3><?php echo htmlspecialchars($request_row['title']); ?></h3>
                                 <p class="location">Location: <?php echo htmlspecialchars($request_row['location']); ?></p>
                                 <p class="time">Time🕒: <?= date("g:i A", strtotime($request_row['start_time'])) . " - " . date("g:i A", strtotime($request_row['end_time'])) ?></p><br>
                                 <p class="date">Date: <?=date("jS F Y", strtotime($request_row['event_date']))?></p><br>
-                                <p class="description">Description: <?php echo htmlspecialchars($request_row['description']); ?></p><br>
+                                <p class="description">Description: <?php echo htmlspecialchars($request_row['description']); ?></p>
+                                <button type="button" class="read-more-link" onclick="openDescModal('<?= addslashes(htmlspecialchars($request_row['title'])) ?>', '<?= addslashes(htmlspecialchars($request_row['description'])) ?>')">
+                                Click to Read More...
+                                </button>
                                 <p class="Reg_date">Registration Timestamp: <?=date("jS F Y, g:i A", strtotime($request_row['Reg_date']))?></p>
 
 
@@ -178,6 +185,32 @@ if (isset($_GET['action']) && $_GET['action'] == 'cancel' && isset($_GET['req_id
 ?>
         </div>
     </div>
+
+    <div class="desc-modal-overlay" id="descModalOverlay" onclick="closeDescModalOnOverlay(event)">
+        <div class="desc-modal-box">
+            <button type="button" class="desc-modal-close" onclick="closeDescModal()">&times;</button>
+            <h3 id="descModalTitle"></h3>
+            <p id="descModalBody"></p>
+        </div>
+    </div>
+
+    <script>
+    function openDescModal(title, description) {
+        document.getElementById('descModalTitle').textContent = title;
+        document.getElementById('descModalBody').textContent = description;
+        document.getElementById('descModalOverlay').classList.add('active');
+    }
+
+    function closeDescModal() {
+        document.getElementById('descModalOverlay').classList.remove('active');
+    }
+
+    function closeDescModalOnOverlay(event) {
+        if (event.target.id === 'descModalOverlay') {
+            closeDescModal();
+        }
+    }
+    </script>
 </body>
 
 </html>

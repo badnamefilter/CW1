@@ -119,6 +119,9 @@ $total_pages = ceil($total_rows / $limit); //calculate total have how many page
                             <p class="time">Time🕒: <?php echo date("g:i A", strtotime($row['start_time'])) . " - " . date("g:i A", strtotime($row['end_time'])); ?></p><br>
                             <p class="date">Date: <?php echo date("jS F Y", strtotime($row['event_date'])); ?></p><br>
                             <p class="description">Description: <?php echo ($row['description']); ?></p>
+                            <button type="button" class="read-more-link" onclick="openDescModal('<?= addslashes(htmlspecialchars($row['title'])) ?>', '<?= addslashes(htmlspecialchars($row['description'])) ?>')">
+                                Click to Read More...
+                            </button>
 
                             <a href="join_request_submitted.php?program_id=<?php echo $row['id']; ?>">
                                 <button class="join">Join</button>
@@ -158,6 +161,32 @@ $total_pages = ceil($total_rows / $limit); //calculate total have how many page
                 </div>
             <?php endif; ?>
     </div>
+
+    <div class="desc-modal-overlay" id="descModalOverlay" onclick="closeDescModalOnOverlay(event)">
+        <div class="desc-modal-box">
+            <button type="button" class="desc-modal-close" onclick="closeDescModal()">&times;</button>
+            <h3 id="descModalTitle"></h3>
+            <p id="descModalBody"></p>
+        </div>
+    </div>
+
+    <script>
+    function openDescModal(title, description) {
+        document.getElementById('descModalTitle').textContent = title;
+        document.getElementById('descModalBody').textContent = description;
+        document.getElementById('descModalOverlay').classList.add('active');
+    }
+
+    function closeDescModal() {
+        document.getElementById('descModalOverlay').classList.remove('active');
+    }
+
+    function closeDescModalOnOverlay(event) {
+        if (event.target.id === 'descModalOverlay') {
+            closeDescModal();
+        }
+    }
+    </script>
 
 </body>
 
