@@ -40,7 +40,8 @@ $role = $_SESSION["role"];
     <nav class="main-nav">
         <a href="user_page.php" target="_self">Home</a>
         <a href="program.php" target="_self">Explore</a>
-        <a href="program_status.php" target="_self">Join Requests</a>
+        <a href="program_status.php" target="_self">My Activities</a>
+        <a href="history.php" target="_self">History</a>
     </nav>
 
     <div class="hero-content">
@@ -56,20 +57,20 @@ $role = $_SESSION["role"];
             <h2>Our Mission</h2>
             <br>
             <p>
-                At CommunityConnect, we believe that stronger communities start with people coming together. 
-                Our mission is to make community service simple and accessible by connecting residents with 
-                meaningful local activities through an easy-to-use online platform, free from the hassle 
+                At CommunityConnect, we believe that stronger communities start with people coming together.
+                Our mission is to make community service simple and accessible by connecting residents with
+                meaningful local activities through an easy-to-use online platform, free from the hassle
                 of paper forms and lengthy procedures.
             </p>
             <br>
             <p>
-                Guided by the United Nations Sustainable Development Goal 11 — Sustainable Cities and 
-                Communities, we are proud to be backed by the Harmony Community Association, whose 
+                Guided by the United Nations Sustainable Development Goal 11 — Sustainable Cities and
+                Communities, we are proud to be backed by the Harmony Community Association, whose
                 vision drives everything we do.
             </p>
             <br>
             <p>
-                Through civic responsibility, collaboration, and sustainable action, CommunityConnect 
+                Through civic responsibility, collaboration, and sustainable action, CommunityConnect
                 brings people together to make a lasting difference, one community at a time.
             </p>
         </div>

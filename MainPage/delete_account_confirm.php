@@ -8,7 +8,7 @@ if (!isset($_SESSION["id"])) {
     exit();
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST"){
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = $_SESSION["id"];
 
     $delete_program = "DELETE FROM user_program WHERE user_id = '$id';";
@@ -51,7 +51,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     <nav class="main-nav">
         <a href="user_page.php" target="_self">Home</a>
         <a href="program.php" target="_self">Explore</a>
-        <a href="program_status.php" target="_self">Join Requests</a>
+        <a href="program_status.php" target="_self">My Activities</a>
+        <a href="history.php" target="_self">History</a>
     </nav>
 
     <div class="form-body">
