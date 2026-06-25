@@ -92,7 +92,7 @@ body {
   background-color: #55ccff;
 }
 
-/* Program Page */
+/* -----------Program Page----------- */
 .programs {
     margin-left: 10px;
     margin-right: 10px;
@@ -148,7 +148,6 @@ body {
 
 .searchs {
     --padding: 14px;
-
     margin-left: 40%;
     width: max-content;
     display: flex;
@@ -211,7 +210,6 @@ body {
 .program-actions {
   display: flex;
   align-items: center;
-  gap: 14px;
 }
 
 .edit-button {
@@ -237,12 +235,7 @@ body {
     margin-left: 30px;
 }
 
-/* Request Page */
-.rtitle {
-    margin-left: 45px;
-    font-size: 20px;
-}
-
+/* -----------Request Page----------- */
 .requests {
     border: 1px solid #ffffff;
     background-color: #ffffff;
@@ -272,7 +265,7 @@ body {
     padding-right: 10px;
 }
 
-.accept-button {
+.acceptB {
     border: 2px solid rgb(146, 252, 127);
     background: rgb(146, 252, 127);
     color: #000000;
@@ -283,12 +276,12 @@ body {
     font-size: 15px;
 }
 
-.accept-button:hover {
+.acceptB:hover {
     border: 2px solid #00ff4c;
     background: #00ff4c;
 }
 
-.reject-button {
+.rejectB {
     border: 2px solid rgb(255, 117, 138);
     background: rgb(255, 117, 138);
     color: #000000;
@@ -299,12 +292,20 @@ body {
     font-size: 15px;
 }
 
-.reject-button:hover{
+.rejectB:hover{
   border: 2px solid rgb(255, 0, 38);
   background:rgb(255, 0, 38);
 }
 
-/* Creating Page */
+.proT {
+    font-size: 20px;
+}
+
+.decision {
+    display:inline;
+}
+
+/* -----------Creating Page----------- */
 .ctitle {
     margin-left: 45px;
     font-size: 20px;
