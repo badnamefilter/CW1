@@ -7,10 +7,34 @@ if (!isset($_SESSION["id"]) || $_SESSION["role"] !== 'admin') {
   exit();
 }
 
+$total_programs = mysqli_fetch_assoc(mysqli_query($connection, "SELECT COUNT(*) as count FROM program"))['count'];
+
+$total_pending = mysqli_fetch_assoc(mysqli_query($connection, "SELECT COUNT(*) as count FROM user_program WHERE status = 'Pending'"))['count'];
+
+$total_volunteers = mysqli_fetch_assoc(mysqli_query($connection, "SELECT COUNT(DISTINCT user_id) as count FROM user_program WHERE status != 'cancelled'"))['count'];
+
+$total_registered = mysqli_fetch_assoc(mysqli_query($connection, "SELECT COUNT(*) as count FROM user_program WHERE status != 'cancelled'"))['count'];
+$fill_rate = $total_programs > 0 ? round(($total_registered / ($total_programs * 10)) * 100) : 0;
+
+$events_result = mysqli_query($connection, "
+  SELECT title, event_date, start_time, location 
+  FROM program 
+  WHERE event_date >= CURDATE() 
+  ORDER BY event_date ASC 
+  LIMIT 6
+");
+
+$approvals_result = mysqli_query($connection, "
+  SELECT a.username, p.title
+  FROM user_program up, account a, program p 
+  WHERE up.user_id = a.id
+  AND up.program_id = p.id
+  AND up.status = 'Pending'
+  ORDER BY up.Reg_date ASC
+");
 // hi
+// not cool man 
 ?>
-
-
 
 <!DOCTYPE html>
 <meta charset="UTF-8">
@@ -54,7 +78,7 @@ if (!isset($_SESSION["id"]) || $_SESSION["role"] !== 'admin') {
     <div class="lainfo"> <!-- 1st Widget -->
       <div class="tprog">
         <div class="grey"> Total Programs </div>
-        <div class="Count"> 6</div>
+        <div class="Count"><?= $total_programs ?></div>
         <div class="grey"> 3 active </div>
       </div>
     </div>
@@ -70,7 +94,7 @@ if (!isset($_SESSION["id"]) || $_SESSION["role"] !== 'admin') {
     <div class="lainfo"> <!-- 3rd Widget -->
       <div class="tprog">
         <div class="grey"> Total volunteers </div>
-        <div class="Count"> 192 </div>
+        <div class="Count"><?= $total_volunteers ?></div>
         <div class="grey"> Across all programs </div>
       </div>
     </div>
@@ -78,7 +102,7 @@ if (!isset($_SESSION["id"]) || $_SESSION["role"] !== 'admin') {
     <div class="lainfo"> <!-- 4th Widget -->
       <div class="tprog">
         <div class="grey"> Fill rate </div>
-        <div class="Count"> 67% </div>
+        <div class="Count"><?= $fill_rate ?>%</div>
         <div class="grey"> Average across programs </div>
       </div>
     </div>
@@ -86,7 +110,7 @@ if (!isset($_SESSION["id"]) || $_SESSION["role"] !== 'admin') {
     <div class="lainfo"> <!-- 5th Widget -->
       <div class="tprog">
         <div class="grey"> Pending requests </div>
-        <div class="Count"> 3 </div>
+        <div class="Count"><?= $total_pending ?></div>
         <div class="grey"> Awaiting approval </div>
       </div>
     </div>
@@ -101,98 +125,52 @@ if (!isset($_SESSION["id"]) || $_SESSION["role"] !== 'admin') {
         </div>
       </div>
 
-      <div class="container2">
+      <?php
+      $count = 0;
+      while ($row = mysqli_fetch_assoc($events_result)):
+        if ($count % 3 === 0):
+          if ($count > 0) echo '</div>';
+          echo '<div class="container2">';
+        endif;
+        $count++;
+        $date = date("M j, Y", strtotime($row['event_date']));
+        $time = date("g:i A", strtotime($row['start_time']));
+      ?>
         <div class="envetsWg">
-          <div class="envetTitle">Clean The Velocity</div>
+          <div class="envetTitle"><?= htmlspecialchars($row['title']) ?></div>
           <div class="envetDes">
-            📅Date: June 17 - June 19 <br>
-            ⏱️Time: 8:00A.M. <br>
-            📍Location: Sunway Velocity <br><br>
+            📅Date: <?= $date ?><br>
+            ⏱️Time: <?= $time ?><br>
+            📍Location: <?= htmlspecialchars($row['location']) ?><br><br>
           </div>
         </div>
-
-        <div class="envetsWg">
-          <div class="envetTitle">Clean The Pyramid</div>
-          <div class="envetDes">
-            📅Date: June 7 - June 9 <br>
-            ⏱️Time: 9:00A.M. <br>
-            📍Location: Sunway Pyramid <br><br>
-          </div>
-        </div>
-
-        <div class="envetsWg">
-          <div class="envetTitle">Clean The Puchong</div>
-          <div class="envetDes">
-            📅Date: June 17 - June 19 <br>
-            ⏱️Time: 8:00A.M. <br>
-            📍Location: Sunway Velocity <br><br>
-          </div>
-        </div>
+        <?php endwhile; ?>
+      <?php if ($count > 0) echo '</div>';?>
+      <?php if ($count === 0): ?>
+        <p style="color: grey; padding: 10px;">No upcoming events.</p>
+      <?php endif; ?>
       </div>
-
-      <div class="container2">
-        <div class="envetsWg">
-          <div class="envetTitle">Clean The Velocity</div>
-          <div class="envetDes">
-            📅Date: June 17 - June 19 <br>
-            ⏱️Time: 8:00A.M. <br>
-            📍Location: Sunway Velocity <br><br>
-          </div>
-        </div>
-
-        <div class="envetsWg">
-          <div class="envetTitle">Clean The Pyramid</div>
-          <div class="envetDes">
-            📅Date: June 7 - June 9 <br>
-            ⏱️Time: 9:00A.M. <br>
-            📍Location: Sunway Pyramid <br><br>
-          </div>
-        </div>
-
-        <div class="envetsWg">
-          <div class="envetTitle">Clean The Puchong</div>
-          <div class="envetDes">
-            📅Date: June 17 - June 19 <br>
-            ⏱️Time: 8:00A.M. <br>
-            📍Location: Sunway Velocity <br><br>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <div class="aprove">
       <div class="requestHome">
         <div class="lalala">
           <div class="reqtitle">Approval Queue</div>
-
-          <button onclick="window.location.href='Admin_Request.php';" class="niba"> Go Approve </button>
+          <button onclick="window.location.href='Admin_Request.php';" class="niba">Go Approve</button>
         </div>
-        <div class="user">
-          <div class="ud">JohnQT</div>
-          <div class="ude">Request to join: <strong>Clean The Velocity</strong></div>
-        </div>
-
-        <div class="user">
-          <div class="ud">Robin</div>
-          <div class="ude">Request to join: <strong>Clean The Velocity</strong></div>
-        </div>
-
-        <div class="user">
-          <div class="ud">Newson</div>
-          <div class="ude">Request to join: <strong>Clean The Velocity</strong></div>
-        </div>
-
-        <div class="user">
-          <div class="ud">Ray Ping</div>
-          <div class="ude">Request to join: <strong>Clean The Velocity</strong></div>
-        </div>
-
-
+        
+        <?php if (mysqli_num_rows($approvals_result) === 0): ?>
+          <p style="color: grey; padding: 10px;">No pending requests.</p>
+        <?php else: ?>
+          <?php while ($req = mysqli_fetch_assoc($approvals_result)): ?>
+            <div class="user">
+              <div class="ud"><?= htmlspecialchars($req['username']) ?></div>
+              <div class="ude">Request to join: <strong><?= htmlspecialchars($req['title']) ?></strong></div>
+          </div>
+        <?php endwhile; ?>
+        <?php endif; ?>
       </div>
     </div>
+  </div>
 
-  </div>
-  </div>
 </body>
-
 </html>

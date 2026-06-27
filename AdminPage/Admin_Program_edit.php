@@ -96,7 +96,7 @@ $program = mysqli_fetch_assoc($result);
 
         <label class="detail" for="program_date">Date:</label>
         <input class="normal" type="date" id="program_date" name="program_date" 
-        value="<?= htmlspecialchars($program['event_date']) ?>" min="<?=date("Y-m-d")?>" required><br><br>
+        value="<?= htmlspecialchars($program['event_date']) ?>" required><br><br>
 
         <label class="detail" for="program_starttime"> Start Time:</label>
         <input class="normal" type="time" id="program_starttime" name="program_starttime" 
