@@ -50,6 +50,7 @@ $user_id = $_SESSION['id'];
         <a href="program_status.php" target="_self">My Activities</a>
         <a href="history.php" target="_self">History</a>
     </nav>
+    <?php include 'notification.php'; ?>
 
     <div class="page-content">
         <h2 class="section-title">Completed Program</h2>

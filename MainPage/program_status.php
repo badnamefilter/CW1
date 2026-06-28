@@ -76,6 +76,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'cancel' && isset($_GET['req_id
         <a href="program_status.php" target="_self">My Activities</a>
         <a href="history.php" target="_self">History</a>
     </nav>
+    <?php include 'notification.php'; ?>
 
     <div class="page-content">
         <h2 class="section-title">Pending Request</h2>
@@ -111,16 +112,16 @@ if (isset($_GET['action']) && $_GET['action'] == 'cancel' && isset($_GET['req_id
                                 <h3><?php echo htmlspecialchars($program_row['title']); ?></h3>
                                 <p class="location">Location: <?php echo htmlspecialchars($program_row['location']); ?></p>
                                 <p class="time">Time🕒: <?= date("g:i A", strtotime($program_row['start_time'])) . " - " . date("g:i A", strtotime($program_row['end_time'])) ?></p><br>
-                                <p class="date">Date: <?=date("jS F Y", strtotime($program_row['event_date']))?></p><br>
+                                <p class="date">Date: <?= date("jS F Y", strtotime($program_row['event_date'])) ?></p><br>
                                 <p class="description">Description: <?php echo htmlspecialchars($program_row['description']); ?></p>
                                 <button type="button" class="read-more-link" onclick="openDescModal('<?= addslashes(htmlspecialchars($program_row['title'])) ?>', '<?= addslashes(htmlspecialchars($program_row['description'])) ?>')">
-                                Read More...
+                                    Read More...
                                 </button>
-                                <p class="Reg_date">Registration Timestamp: <?=date("jS F Y, g:i A", strtotime($reg_date))?></p>
+                                <p class="Reg_date">Registration Timestamp: <?= date("jS F Y, g:i A", strtotime($reg_date)) ?></p>
 
-                                <div class="status-badge" style="background-color: #ffc107; color: #000;"><?=$status?></div>
+                                <div class="status-badge" style="background-color: #ffc107; color: #000;"><?= $status ?></div>
 
-                                <a href="program_status.php?action=cancel&req_id=<?=$program_id?>"
+                                <a href="program_status.php?action=cancel&req_id=<?= $program_id ?>"
                                     class="join"
                                     style="text-decoration:none; display:inline-block; text-align:center; background-color: #dc3545;">
                                     Cancel
@@ -135,7 +136,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'cancel' && isset($_GET['req_id
             }
             ?>
         </div>
-        
+
         <h2 class="section-title">Upcoming Programs</h2>
         <div class="programs-section">
             <?php
@@ -158,15 +159,15 @@ if (isset($_GET['action']) && $_GET['action'] == 'cancel' && isset($_GET['req_id
                         <img src="../Images/gotong-royong.jpg" alt="https://www.mbsj.gov.my/ms/gotong-royong-0">
 
                         <div class="card-content">
-                                <h3><?php echo htmlspecialchars($request_row['title']); ?></h3>
-                                <p class="location">Location: <?php echo htmlspecialchars($request_row['location']); ?></p>
-                                <p class="time">Time🕒: <?= date("g:i A", strtotime($request_row['start_time'])) . " - " . date("g:i A", strtotime($request_row['end_time'])) ?></p><br>
-                                <p class="date">Date: <?=date("jS F Y", strtotime($request_row['event_date']))?></p><br>
-                                <p class="description">Description: <?php echo htmlspecialchars($request_row['description']); ?></p>
-                                <button type="button" class="read-more-link" onclick="openDescModal('<?= addslashes(htmlspecialchars($request_row['title'])) ?>', '<?= addslashes(htmlspecialchars($request_row['description'])) ?>')">
+                            <h3><?php echo htmlspecialchars($request_row['title']); ?></h3>
+                            <p class="location">Location: <?php echo htmlspecialchars($request_row['location']); ?></p>
+                            <p class="time">Time🕒: <?= date("g:i A", strtotime($request_row['start_time'])) . " - " . date("g:i A", strtotime($request_row['end_time'])) ?></p><br>
+                            <p class="date">Date: <?= date("jS F Y", strtotime($request_row['event_date'])) ?></p><br>
+                            <p class="description">Description: <?php echo htmlspecialchars($request_row['description']); ?></p>
+                            <button type="button" class="read-more-link" onclick="openDescModal('<?= addslashes(htmlspecialchars($request_row['title'])) ?>', '<?= addslashes(htmlspecialchars($request_row['description'])) ?>')">
                                 Click to Read More...
-                                </button>
-                                <p class="Reg_date">Registration Timestamp: <?=date("jS F Y, g:i A", strtotime($request_row['Reg_date']))?></p>
+                            </button>
+                            <p class="Reg_date">Registration Timestamp: <?= date("jS F Y, g:i A", strtotime($request_row['Reg_date'])) ?></p>
 
 
                             <div class="status-badge" style="background-color: #28a745; color: #fff;"><?php echo htmlspecialchars($request_row['status']) ?></div>
@@ -176,13 +177,13 @@ if (isset($_GET['action']) && $_GET['action'] == 'cancel' && isset($_GET['req_id
                             </a>
                         </div>
                     </div>
-        
-<?php
+
+            <?php
                 }
             } else {
                 echo "<p style='margin-left: 20px; color: #888;'>You have no upcoming programs.</p>";
             }
-?>
+            ?>
         </div>
     </div>
 
@@ -195,21 +196,21 @@ if (isset($_GET['action']) && $_GET['action'] == 'cancel' && isset($_GET['req_id
     </div>
 
     <script>
-    function openDescModal(title, description) {
-        document.getElementById('descModalTitle').textContent = title;
-        document.getElementById('descModalBody').textContent = description;
-        document.getElementById('descModalOverlay').classList.add('active');
-    }
-
-    function closeDescModal() {
-        document.getElementById('descModalOverlay').classList.remove('active');
-    }
-
-    function closeDescModalOnOverlay(event) {
-        if (event.target.id === 'descModalOverlay') {
-            closeDescModal();
+        function openDescModal(title, description) {
+            document.getElementById('descModalTitle').textContent = title;
+            document.getElementById('descModalBody').textContent = description;
+            document.getElementById('descModalOverlay').classList.add('active');
         }
-    }
+
+        function closeDescModal() {
+            document.getElementById('descModalOverlay').classList.remove('active');
+        }
+
+        function closeDescModalOnOverlay(event) {
+            if (event.target.id === 'descModalOverlay') {
+                closeDescModal();
+            }
+        }
     </script>
 </body>
 

@@ -25,7 +25,7 @@ if ($search_query !== "") {
     //CURDATE() means get today date data in here use to show after CURDATE hide program date before CURDATE(but time is useless only date)
     //LIMIT use to make the displayed page simple and attractive limit show program in 1 page
     //OFFSET use to create a new page and start to show after limit program(for example:limit=6,offset will show 0-5 in page 1,6-10 page 2)
-        $count_sql = "SELECT COUNT(*) AS total FROM program
+    $count_sql = "SELECT COUNT(*) AS total FROM program
         WHERE title LIKE '%$search_query%'
         AND event_date >= CURDATE()
         AND id NOT IN (SELECT program_id FROM user_program WHERE user_id= '$user_id')";
@@ -94,6 +94,7 @@ $total_pages = ceil($total_rows / $limit); //calculate total have how many page
         <a href="program_status.php" target="_self">My Activities</a>
         <a href="history.php" target="_self">History</a>
     </nav>
+    <?php include 'notification.php'; ?>
 
     <div class="search-section">
         <form action="program.php" method="GET" class="search-container">
@@ -133,33 +134,33 @@ $total_pages = ceil($total_rows / $limit); //calculate total have how many page
             } else {
                 echo "<p>No programs found.</p>";
             }
-            ?>            
+            ?>
         </div>
 
         <?php if ($total_rows > 0): ?>
-                <div style="text-align: center; margin: 40px 0; font-family: Arial, sans-serif; font-weight: bold;">
+            <div style="text-align: center; margin: 40px 0; font-family: Arial, sans-serif; font-weight: bold;">
 
-                    <?php if ($page > 1): ?>
-                        <a href="program.php?page=<?php echo $page - 1; ?>&program=<?php echo urlencode($search_query); //urlencode is usde to convert certain special characters(exp: space and ?)into URL Format
-                                                                                    ?>"
-                            style="display: inline-block; padding: 8px 18px; margin: 0 10px; border: 2px solid #333; color: #333; text-decoration: none; border-radius: 4px; background-color: transparent;">
-                            Prev Page
-                        </a>
-                    <?php endif; ?>
+                <?php if ($page > 1): ?>
+                    <a href="program.php?page=<?php echo $page - 1; ?>&program=<?php echo urlencode($search_query); //urlencode is usde to convert certain special characters(exp: space and ?)into URL Format
+                                                                                ?>"
+                        style="display: inline-block; padding: 8px 18px; margin: 0 10px; border: 2px solid #333; color: #333; text-decoration: none; border-radius: 4px; background-color: transparent;">
+                        Prev Page
+                    </a>
+                <?php endif; ?>
 
-                    <span style="display: inline-block; margin: 0 10px; color: #666; vertical-align: middle;">
-                        Page <?php echo $page; ?> of <?php echo $total_pages; ?>
-                    </span>
+                <span style="display: inline-block; margin: 0 10px; color: #666; vertical-align: middle;">
+                    Page <?php echo $page; ?> of <?php echo $total_pages; ?>
+                </span>
 
-                    <?php if ($page < $total_pages): ?>
-                        <a href="program.php?page=<?php echo $page + 1; ?>&program=<?php echo urlencode($search_query); ?>"
-                            style="display: inline-block; padding: 8px 18px; margin: 0 10px; border: 2px solid #333; color: #333; text-decoration: none; border-radius: 4px; background-color: transparent;">
-                            Next Page
-                        </a>
-                    <?php endif; ?>
+                <?php if ($page < $total_pages): ?>
+                    <a href="program.php?page=<?php echo $page + 1; ?>&program=<?php echo urlencode($search_query); ?>"
+                        style="display: inline-block; padding: 8px 18px; margin: 0 10px; border: 2px solid #333; color: #333; text-decoration: none; border-radius: 4px; background-color: transparent;">
+                        Next Page
+                    </a>
+                <?php endif; ?>
 
-                </div>
-            <?php endif; ?>
+            </div>
+        <?php endif; ?>
     </div>
 
     <div class="desc-modal-overlay" id="descModalOverlay" onclick="closeDescModalOnOverlay(event)">
@@ -171,21 +172,21 @@ $total_pages = ceil($total_rows / $limit); //calculate total have how many page
     </div>
 
     <script>
-    function openDescModal(title, description) {
-        document.getElementById('descModalTitle').textContent = title;
-        document.getElementById('descModalBody').textContent = description;
-        document.getElementById('descModalOverlay').classList.add('active');
-    }
-
-    function closeDescModal() {
-        document.getElementById('descModalOverlay').classList.remove('active');
-    }
-
-    function closeDescModalOnOverlay(event) {
-        if (event.target.id === 'descModalOverlay') {
-            closeDescModal();
+        function openDescModal(title, description) {
+            document.getElementById('descModalTitle').textContent = title;
+            document.getElementById('descModalBody').textContent = description;
+            document.getElementById('descModalOverlay').classList.add('active');
         }
-    }
+
+        function closeDescModal() {
+            document.getElementById('descModalOverlay').classList.remove('active');
+        }
+
+        function closeDescModalOnOverlay(event) {
+            if (event.target.id === 'descModalOverlay') {
+                closeDescModal();
+            }
+        }
     </script>
 
 </body>

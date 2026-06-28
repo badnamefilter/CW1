@@ -43,6 +43,7 @@ $role = $_SESSION["role"];
         <a href="program_status.php" target="_self">My Activities</a>
         <a href="history.php" target="_self">History</a>
     </nav>
+    <?php include 'notification.php'; ?>
 
     <div class="hero-content">
         <h2>Welcome, <?= $username ?>!</h2>
