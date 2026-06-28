@@ -112,7 +112,7 @@ $total_pages = ceil($total_rows / $limit); //calculate total have how many page
             ?>
 
                     <div class="program-card">
-                        <img src="../Images/gotong-royong.jpg" alt="https://www.mbsj.gov.my/ms/gotong-royong-0">
+                        <img src="../<?= htmlspecialchars($row['image']) ?>" alt="<?= htmlspecialchars($row['title']) ?>">
 
                         <div class="card-content">
                             <h3><?php echo ($row['title']); ?></h3>

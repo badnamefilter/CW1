@@ -26,9 +26,26 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $end_time    = mysqli_real_escape_string($connection, $_POST["program_endtime"]);
     $location    = mysqli_real_escape_string($connection, $_POST["program_location"]);
     $description = mysqli_real_escape_string($connection, $_POST["program_description"]);
+    $existing_image = mysqli_real_escape_string($connection, $_POST["existing_image"]);
+    $image = $existing_image;
+
+    if (isset($_FILES['program_image']) && $_FILES['program_image']['error'] == 0) {
+        $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+        $filename = $_FILES['program_image']['name'];
+        $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+
+        if (in_array($ext, $allowed)) {
+            $newFileName = "program_" . time() . "_" . uniqid() . "." . $ext;
+            $uploadPath = "../Images/programs/" . $newFileName;
+
+            if (move_uploaded_file($_FILES['program_image']['tmp_name'], $uploadPath)) {
+                $image = "Images/programs/" . $newFileName;
+            }
+        }
+    }
 
     $sql = "UPDATE program 
-            SET title = '$title', event_date = '$event_date', start_time = '$start_time', end_time = '$end_time', location = '$location', description = '$description'
+            SET title = '$title', event_date = '$event_date', start_time = '$start_time', end_time = '$end_time', location = '$location', description = '$description', image = '$image'
             WHERE id = $program_id";
         if (mysqli_query($connection, $sql)) {
             header("Location: Admin_Program.php?success=updated");
@@ -87,7 +104,7 @@ $program = mysqli_fetch_assoc($result);
             <h1>Edit Program:</h1>
         </div>
      
-        <form class="cProgram" action="Admin_Program_edit.php?id=<?= $program_id ?>" method="POST">
+        <form class="cProgram" action="Admin_Program_edit.php?id=<?= $program_id ?>" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="program_id" value="<?= $program_id ?>">
 
         <label class="detail" for="programName">Name:</label>
@@ -114,6 +131,13 @@ $program = mysqli_fetch_assoc($result);
         <textarea class="normal dd" id="program_description" name="program_description" rows="5" 
         required><?= htmlspecialchars($program['description']) ?></textarea>
         <br><br>
+
+        <label class="detail" for="program_image">Program Image:</label><br>
+        <img src="../<?= htmlspecialchars($program['image']) ?>" alt="Current image" style="max-width:200px; display:block; margin-bottom:10px; border-radius:6px;">
+        <input class="normal" type="file" id="program_image" name="program_image" accept="image/png, image/jpeg, image/gif, image/webp"><br>
+        <small style="color:#888;">Leave blank to keep the current image.</small>
+        <br><br>
+        
             <div class="form-buttons">
                 <input class="backB" type="button" value="Back" onclick="window.location.href='Admin_Program.php'">
                 <input class="confirmB" type="submit" name="update" value="Confirm">

@@ -79,7 +79,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'cancel' && isset($_GET['req_id
     <?php include 'notification.php'; ?>
 
     <div class="page-content">
-        <h2 class="section-title">Pending Request</h2>
+        <h2 class="section-title">Pending Requests</h2>
         <div class="programs-section">
 
             <?php
@@ -105,7 +105,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'cancel' && isset($_GET['req_id
             ?>
 
                         <div class="program-card">
-                            <img src="../Images/gotong-royong.jpg" alt="https://www.mbsj.gov.my/ms/gotong-royong-0">
+                            <img src="../<?= htmlspecialchars($program_row['image']) ?>" alt="<?= htmlspecialchars($program_row['title']) ?>">
 
                             <div class="card-content">
 
@@ -141,7 +141,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'cancel' && isset($_GET['req_id
         <div class="programs-section">
             <?php
             //Upcoming(Approved) function
-            $upcoming_sql = "SELECT up.program_id, up.status, up.Reg_date, p.title, p.location, p.start_time, p.end_time, p.event_date, p.description
+            $upcoming_sql = "SELECT up.program_id, up.status, up.Reg_date, p.title, p.location, p.start_time, p.end_time, p.event_date, p.description, p.image
                              FROM user_program up
                              INNER JOIN program p ON up.program_id=p.id
                              WHERE up.user_id = '$user_id'
@@ -156,7 +156,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'cancel' && isset($_GET['req_id
             ?>
 
                     <div class="program-card">
-                        <img src="../Images/gotong-royong.jpg" alt="https://www.mbsj.gov.my/ms/gotong-royong-0">
+                        <img src="../<?= htmlspecialchars($request_row['image']) ?>" alt="<?= htmlspecialchars($request_row['title']) ?>">
 
                         <div class="card-content">
                             <h3><?php echo htmlspecialchars($request_row['title']); ?></h3>
