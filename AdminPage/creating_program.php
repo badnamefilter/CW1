@@ -9,15 +9,31 @@ if (!isset($_SESSION["id"]) || $_SESSION["role"] !== 'admin') {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $programName = isset($_POST['programName']) && !empty($_POST["programName"]) ? $_POST["programName"] : "";
+    $programName = mysqli_real_escape_string($connection, isset($_POST['programName']) && !empty($_POST["programName"]) ? $_POST["programName"] : "");
     $programDate = isset($_POST['program_date']) && !empty($_POST["program_date"]) ? $_POST["program_date"] : "";
     $programStartTime = isset($_POST['program_starttime']) && !empty($_POST["program_starttime"]) ? $_POST["program_starttime"] : "";
     $programEndTime = isset($_POST['program_endtime']) && !empty($_POST["program_endtime"]) ? $_POST["program_endtime"] : "";
-    $programLocation = isset($_POST['program_location']) && !empty($_POST["program_location"]) ? $_POST["program_location"] : "";
-    $programDescription = isset($_POST['program_description']) && !empty($_POST["program_description"]) ? $_POST["program_description"] : "";
+    $programLocation = mysqli_real_escape_string($connection, isset($_POST['program_location']) && !empty($_POST["program_location"]) ? $_POST["program_location"] : "");
+    $programDescription = mysqli_real_escape_string($connection, isset($_POST['program_description']) && !empty($_POST["program_description"]) ? $_POST["program_description"] : "");
+    $programImage = "Images/gotong-royong.jpg";
 
-    $sql = "INSERT INTO program (title, description, event_date, location, start_time, end_time)
-            VALUES ('$programName','$programDescription','$programDate','$programLocation','$programStartTime','$programEndTime');";
+    if (isset($_FILES['program_image']) && $_FILES['program_image']['error'] == 0) {
+        $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+        $filename = $_FILES['program_image']['name'];
+        $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+
+        if (in_array($ext, $allowed)) {
+            $newFileName = "program_" . time() . "_" . uniqid() . "." . $ext;
+            $uploadPath = "../Images/programs/" . $newFileName;
+
+            if (move_uploaded_file($_FILES['program_image']['tmp_name'], $uploadPath)) {
+                $programImage = "Images/programs/" . $newFileName;
+            }
+        }
+    }
+
+    $sql = "INSERT INTO program (title, description, event_date, location, start_time, end_time, image)
+            VALUES ('$programName','$programDescription','$programDate','$programLocation','$programStartTime','$programEndTime', '$programImage');";
     
     mysqli_query($connection, $sql);
     header("Location: Admin_Program.php?success=created");
@@ -59,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h1>Creating Program:</h1>
     </div>
 
-<form class="cProgram" action="creating_program.php" method="POST">
+<form class="cProgram" action="creating_program.php" method="POST" enctype="multipart/form-data">
     <label class="detail" for="programName">Name:</label>
     <input class="normal" type="text" id="programName" name="programName" required><br><br>
 
@@ -77,6 +93,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <label class="detail" for="program_description">Description:</label><br>
     <textarea class="normal dd" id="program_description" name="program_description" rows="5" required></textarea>
+    <br><br>
+
+    <label class="detail" for="program_image">Program Image:</label>
+    <input class="normal" type="file" id="program_image" name="program_image" accept="image/png, image/jpeg, image/gif, image/webp"><br>
+    <small style="color:#888;">Optional: A default image will be used if none is uploaded.</small>
     <br><br>
 
         <div class="form-buttons">
