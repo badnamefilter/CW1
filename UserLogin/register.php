@@ -7,27 +7,38 @@ $errorMessage = "";
 $successMessage = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = isset($_POST["username"]) && !empty($_POST["username"]) ? $_POST["username"] : "";
-    $email = isset($_POST["email"]) && !empty($_POST["email"]) ? $_POST["email"] : "";
-    $password = isset($_POST["password"]) && !empty($_POST["password"]) ? $_POST["password"] : "";
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-    $role = isset($_POST["role"]) && !empty($_POST["role"]) ? $_POST["role"] : "";
+    
+    $captcha = $_POST['g-recaptcha-response'];
+    $secretKey = "6LdPWSAtAAAAALmmXm5ciDqe3hX1lriACIcWHA5i";
 
-    $sql = "SELECT * 
-        FROM account
-        WHERE username='$username'";
+    $verify = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=$secretKey&response=$captcha");
+    $captcha_result = json_decode($verify);
 
-    $result = mysqli_query($connection, $sql);
-
-    if (mysqli_num_rows($result) > 0) {
-        $errorMessage = "Error: Sorry, that username has already been taken!<br> <a href='register.php'>Re-create account</a><br><br>";
+    if (!$captcha_result->success) {
+        $errorMessage = "Captcha verification failed. Please try again.";
     } else {
-        $sql = "INSERT INTO account (username, email, password,role, Reg_date)
-            VALUES ('$username','$email','$hashedPassword','$role',NOW());";
+        $username = isset($_POST["username"]) && !empty($_POST["username"]) ? $_POST["username"] : "";
+        $email = isset($_POST["email"]) && !empty($_POST["email"]) ? $_POST["email"] : "";
+        $password = isset($_POST["password"]) && !empty($_POST["password"]) ? $_POST["password"] : "";
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $role = isset($_POST["role"]) && !empty($_POST["role"]) ? $_POST["role"] : "";
 
-        mysqli_query($connection, $sql);
+        $sql = "SELECT * 
+            FROM account
+            WHERE username='$username'";
 
-        $successMessage = "Account successfully created! <a href='login.php'>Return to login page</a>";
+        $result = mysqli_query($connection, $sql);
+
+        if (mysqli_num_rows($result) > 0) {
+            $errorMessage = "Error: Sorry, that username has already been taken!<br> <a href='register.php'>Re-create account</a><br><br>";
+        } else {
+            $sql = "INSERT INTO account (username, email, password,role, Reg_date)
+                VALUES ('$username','$email','$hashedPassword','$role',NOW());";
+
+            mysqli_query($connection, $sql);
+
+            $successMessage = "Account successfully created! <a href='login.php'>Return to login page</a>";
+        }
     }
 }   
 ?>
@@ -39,6 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <title>Community Services</title>
     <link rel="stylesheet" href="../CSS/user.css">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <style>
 
@@ -65,9 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <p style="color: red; text-align: center; font-weight: bold;">
                     <?php echo $errorMessage; ?>
                 </p>
-            <?php } ?>
-
-            <?php if (!empty($successMessage)) { ?>
+            <?php } elseif (!empty($successMessage)){ ?>
                 <p style="color: green; text-align: center; font-weight: bold;">
                     <?php echo $successMessage; ?>
                 </p>
@@ -93,6 +103,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <br>
             <input type="submit" value="Sign Up"><br><br>
+            <div class="g-recaptcha" data-sitekey="6LdPWSAtAAAAACMYWlvfve0qiHJ-C014wh49UJSD"></div><br>
             <p>Already have an account? <a href="login.php">Log in here</a>.</p>
         </form>
 

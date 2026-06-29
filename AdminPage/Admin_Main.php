@@ -13,9 +13,9 @@ $total_active_programs = mysqli_fetch_assoc(mysqli_query($connection, "SELECT CO
 
 $total_pending = mysqli_fetch_assoc(mysqli_query($connection, "SELECT COUNT(*) as count FROM user_program WHERE status = 'Pending'"))['count'];
 
-$total_volunteers = mysqli_fetch_assoc(mysqli_query($connection, "SELECT COUNT(DISTINCT user_id) as count FROM user_program WHERE status != 'cancelled'"))['count'];
+$total_volunteers = mysqli_fetch_assoc(mysqli_query($connection, "SELECT COUNT(DISTINCT user_id) as count FROM user_program WHERE status = 'Approved'"))['count'];
 
-$total_registered = mysqli_fetch_assoc(mysqli_query($connection, "SELECT COUNT(*) as count FROM user_program WHERE status != 'cancelled'"))['count'];
+$total_registered = mysqli_fetch_assoc(mysqli_query($connection, "SELECT COUNT(*) as count FROM user_program WHERE status = 'Approved'"))['count'];
 $fill_rate = $total_programs > 0 ? round(($total_registered / ($total_programs * 10)) * 100) : 0;
 
 $leaderboard_sql = "SELECT a.username, COUNT(*) AS completed_count
