@@ -415,3 +415,71 @@
   color: #28a745;
   font-weight: bold;
 }
+
+.sort-controls {
+  text-align: center;
+  margin: 0;
+  padding: 15px 0;
+  background-color: #f5f5f5;
+  color: #555;
+}
+
+.sort-link {
+  display: inline-block;
+  padding: 8px 18px;
+  margin: 0 5px;
+  border-radius: 20px;
+  text-decoration: none;
+  color: #2e7d32;
+  font-weight: bold;
+  border: 2px solid #2e7d32;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.sort-link:hover {
+  background-color: #e8f5e9;
+}
+
+.sort-link.active {
+  background-color: #2e7d32;
+  color: white;
+}
+
+.sort-link.active:hover {
+  background-color: #45a049;
+}
+
+.filter-form {
+  text-align: center;
+  margin: 0;
+  padding: 10px 0 20px;
+  background-color: #f5f5f5;
+}
+
+.filter-form label {
+  font-weight: bold;
+  color: #555;
+  margin-right: 8px;
+}
+
+.filter-form select {
+  padding: 10px 18px;
+  border-radius: 20px;
+  border: 2px solid #2e7d32;
+  background-color: white;
+  color: #2e7d32;
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.filter-form select:hover {
+  background-color: #2e7d32;
+  color: white;
+}
+
+.filter-form select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.2);
+}
