@@ -13,7 +13,7 @@ $user_id = $_SESSION["id"];
 if (isset($_GET['action']) && $_GET['action'] == 'cancel' && isset($_GET['req_id'])) {
     $cancel_id = $_GET['req_id'];
 
-    $delete_sql = "DELETE FROM user_program WHERE program_id = '$cancel_id' AND user_id = '$user_id'";
+    $delete_sql = "DELETE FROM user_program WHERE id = '$cancel_id' AND user_id = '$user_id'";
     mysqli_query($connection, $delete_sql);
 
     //after delete refresh page
@@ -94,6 +94,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'cancel' && isset($_GET['req_id
                     $program_id = $request_row['program_id'];
                     $status = $request_row['status']; //status have Pending, Approved, Rejected
                     $reg_date = $request_row['Reg_date']; //user Register date
+                    $request_id = $request_row['id'];
 
                     //use program id go program take all data for the program
                     $program_sql = "SELECT * FROM program WHERE id = '$program_id'";
@@ -121,7 +122,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'cancel' && isset($_GET['req_id
 
                                 <div class="status-badge" style="background-color: #ffc107; color: #000;"><?= $status ?></div>
 
-                                <a href="program_status.php?action=cancel&req_id=<?= $program_id ?>"
+                                <a href="program_status.php?action=cancel&req_id=<?= $request_id ?>"
                                     class="join"
                                     style="text-decoration:none; display:inline-block; text-align:center; background-color: #dc3545;">
                                     Cancel
@@ -141,7 +142,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'cancel' && isset($_GET['req_id
         <div class="programs-section">
             <?php
             //Upcoming(Approved) function
-            $upcoming_sql = "SELECT up.program_id, up.status, up.Reg_date, p.title, p.location, p.start_time, p.end_time, p.event_date, p.description, p.image
+            $upcoming_sql = "SELECT up.id,  up.program_id, up.status, up.Reg_date, p.title, p.location, p.start_time, p.end_time, p.event_date, p.description, p.image
                              FROM user_program up
                              INNER JOIN program p ON up.program_id=p.id
                              WHERE up.user_id = '$user_id'
@@ -172,7 +173,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'cancel' && isset($_GET['req_id
 
                             <div class="status-badge" style="background-color: #28a745; color: #fff;"><?php echo htmlspecialchars($request_row['status']) ?></div>
 
-                            <a href="program_status.php?action=cancel&req_id=<?php echo $request_row['program_id']; ?>" class="join" style="text-decoration:none; display:inline-block; text-align:center; background-color: #dc3545;color: white;">
+                            <a href="program_status.php?action=cancel&req_id=<?php echo $request_row['id']; ?>" class="join" style="text-decoration:none; display:inline-block; text-align:center; background-color: #dc3545;color: white;">
                                 Cancel
                             </a>
                         </div>

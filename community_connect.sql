@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 29, 2026 at 11:58 AM
+-- Generation Time: Jun 29, 2026 at 12:47 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -122,8 +122,7 @@ INSERT INTO `user_program` (`id`, `user_id`, `program_id`, `status`, `Reg_date`,
 (34, 6, 5, 'Approved', '2026-06-28 23:47:46', 0),
 (35, 6, 9, 'Pending', '2026-06-28 23:47:49', 0),
 (36, 7, 4, 'Approved', '2026-06-29 13:23:29', 0),
-(39, 7, 5, 'Approved', '2026-06-29 15:43:32', 0),
-(41, 5, 2, 'Approved', '2026-06-29 17:54:31', 1);
+(39, 7, 5, 'Approved', '2026-06-29 15:43:32', 0);
 
 --
 -- Indexes for dumped tables
