@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 28, 2026 at 11:04 AM
+-- Generation Time: Jun 29, 2026 at 11:58 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -45,7 +45,12 @@ INSERT INTO `account` (`id`, `username`, `email`, `password`, `role`, `Reg_date`
 (2, 'john', 'john@gmail.com', '$2y$10$MkHEpceZzLpobRTijChllOH/roE5hQpMwAOrgE62g9isaPIc5hiM6', 'user', '2026-06-14 17:49:54'),
 (3, 'Bob', 'bobert@gmail.com', '$2y$10$dZ4BL.xa9Bt7Jsk4TiwWMuULJklFpQEhnVL7MHoUt3hC9b.HQg0xq', 'user', '2026-06-14 18:15:12'),
 (4, 'ebi', 'ebishrimp@gmail.asdasd', '$2y$10$VuByg1YfEsffLaf9PHYNPOhjBwaPt6MEofwhaenAUDLUv4iJPLG8y', 'user', '2026-06-14 21:22:04'),
-(5, 'skibidi', 'skibidi@gmail.com', '$2y$10$QrC.TvyWhZhkV0VvTmAgduVEVPduMH5qb6JKe8GN4z.wkVtx/gj1a', 'user', '2026-06-15 12:33:28');
+(5, 'skibidi', 'skibidi@gmail.com', '$2y$10$QrC.TvyWhZhkV0VvTmAgduVEVPduMH5qb6JKe8GN4z.wkVtx/gj1a', 'user', '2026-06-15 12:33:28'),
+(6, 'johnson', 'johnson@gmail.com', '$2y$10$gZqlz4QaVUor12IZ/MgVu.wq2fLhMTrml.J27sTbBFNhex6oTZVpi', 'user', '2026-06-28 17:35:10'),
+(7, 'yz', 'yz@gmail.com', '$2y$10$4Bw/7MIJNw8ox7VxOeJEseKo85YFBVvkNuCF9eNuV4JyIE6S8/Hdq', 'user', '2026-06-29 13:22:53'),
+(8, 'dasdasd', 'jayvanliang77@gmail.com', '$2y$10$BoX5J42tva7mVoULbO0qSejj4WcOvi9aeDukMnfQOllY2k9H6zfGa', 'user', '2026-06-29 17:25:04'),
+(9, 'aaa', 'aaa@gmail.com', '$2y$10$9NK1yfl5z3vGeAt7uC1xXO0uRdRQptlALTbG5OSX5x3XvMb5EQ/8a', 'user', '2026-06-29 17:27:44'),
+(10, 'Fish', 'water@gmail.com', '$2y$10$RikRtSOo4HEBAkF3P.khZu8TMZrFBpSzJoJqD3qTjAQe8OSqkChg.', 'user', '2026-06-29 17:31:31');
 
 -- --------------------------------------------------------
 
@@ -93,22 +98,32 @@ CREATE TABLE `user_program` (
   `user_id` int(11) NOT NULL,
   `program_id` int(11) NOT NULL,
   `status` varchar(30) NOT NULL,
-  `Reg_date` datetime NOT NULL
+  `Reg_date` datetime NOT NULL,
+  `notified` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user_program`
 --
 
-INSERT INTO `user_program` (`id`, `user_id`, `program_id`, `status`, `Reg_date`) VALUES
-(18, 5, 3, 'Rejected', '2026-06-25 16:04:07'),
-(19, 5, 5, 'Approved', '2026-06-25 16:04:21'),
-(21, 5, 6, 'Rejected', '2026-06-25 16:04:39'),
-(22, 5, 8, 'Rejected', '2026-06-25 16:04:43'),
-(24, 5, 1, 'Approved', '2026-06-25 16:05:08'),
-(25, 5, 11, 'Rejected', '2026-06-25 16:20:22'),
-(26, 5, 2, 'Pending', '2026-06-28 16:24:21'),
-(27, 5, 12, 'Pending', '2026-06-28 16:35:44');
+INSERT INTO `user_program` (`id`, `user_id`, `program_id`, `status`, `Reg_date`, `notified`) VALUES
+(18, 5, 3, 'Rejected', '2026-06-25 16:04:07', 1),
+(21, 5, 6, 'Rejected', '2026-06-25 16:04:39', 1),
+(22, 5, 8, 'Rejected', '2026-06-25 16:04:43', 1),
+(24, 5, 1, 'Approved', '2026-06-25 16:05:08', 1),
+(25, 5, 11, 'Rejected', '2026-06-25 16:20:22', 1),
+(27, 5, 12, 'Rejected', '2026-06-28 16:35:44', 1),
+(28, 6, 12, 'Approved', '2026-06-28 17:35:25', 0),
+(29, 6, 2, 'Approved', '2026-06-28 23:47:30', 0),
+(30, 6, 3, 'Approved', '2026-06-28 23:47:35', 0),
+(31, 6, 6, 'Approved', '2026-06-28 23:47:38', 0),
+(32, 6, 4, 'Approved', '2026-06-28 23:47:42', 0),
+(33, 6, 7, 'Approved', '2026-06-28 23:47:44', 0),
+(34, 6, 5, 'Approved', '2026-06-28 23:47:46', 0),
+(35, 6, 9, 'Pending', '2026-06-28 23:47:49', 0),
+(36, 7, 4, 'Approved', '2026-06-29 13:23:29', 0),
+(39, 7, 5, 'Approved', '2026-06-29 15:43:32', 0),
+(41, 5, 2, 'Approved', '2026-06-29 17:54:31', 1);
 
 --
 -- Indexes for dumped tables
@@ -140,7 +155,7 @@ ALTER TABLE `user_program`
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `program`
@@ -152,7 +167,7 @@ ALTER TABLE `program`
 -- AUTO_INCREMENT for table `user_program`
 --
 ALTER TABLE `user_program`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

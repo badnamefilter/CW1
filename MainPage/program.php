@@ -16,6 +16,23 @@ if ($page < 1) $page = 1;
 $offset = ($page - 1) * $limit;
 
 $user_id = $_SESSION['id'];
+
+$allowed_sorts = ['event_date', 'title', 'location'];
+$sort = in_array($_GET['sort'] ?? '', $allowed_sorts) ? $_GET['sort'] : 'event_date';
+
+$allowed_orders=['asc', 'desc'];
+$order = in_array(strtolower($_GET['order'] ?? ''), $allowed_orders) ? strtolower($_GET['order']) : 'asc';
+
+$allowed_filters = ['all', 'week', 'month'];
+$filter = in_array($_GET['filter'] ?? '', $allowed_filters) ? $_GET['filter'] : 'all';
+
+$filter_condition = "";
+if ($filter === 'week') {
+    $filter_condition = "AND event_date >= CURDATE() AND event_date <= CURDATE() + INTERVAL 7 DAY"; 
+} elseif ($filter === 'month') {
+    $filter_condition = "AND event_date >= CURDATE() AND event_date <= LAST_DAY(CURDATE())";  
+}
+
 //search funtion
 $search_query = ($_GET['program'] ?? "");
 
@@ -28,6 +45,7 @@ if ($search_query !== "") {
     $count_sql = "SELECT COUNT(*) AS total FROM program
         WHERE title LIKE '%$search_query%'
         AND event_date >= CURDATE()
+        $filter_condition
         AND id NOT IN (SELECT program_id FROM user_program WHERE user_id= '$user_id')";
 
     $count_result = mysqli_query($connection, $count_sql);
@@ -36,12 +54,15 @@ if ($search_query !== "") {
     $sql = "SELECT * FROM program  
     WHERE title LIKE '%$search_query%' 
     AND event_date >= CURDATE()
+    $filter_condition
     AND id NOT IN (SELECT program_id FROM user_program WHERE user_id= '$user_id')
+    ORDER BY $sort $order
     LIMIT $limit OFFSET $offset";
 } else {
     $count_sql = "SELECT COUNT(*) AS total FROM program
     WHERE id NOT IN (SELECT program_id FROM user_program WHERE user_id= '$user_id')
-    AND event_date >= CURDATE()";
+    AND event_date >= CURDATE()
+    $filter_condition";
 
     $count_result = mysqli_query($connection, $count_sql);
     $total_rows = mysqli_fetch_assoc($count_result)['total'];
@@ -49,7 +70,10 @@ if ($search_query !== "") {
     $sql = "SELECT * FROM program 
     WHERE id NOT IN (SELECT program_id FROM user_program WHERE user_id= '$user_id')
     AND event_date >= CURDATE()
-    LIMIT $limit OFFSET $offset";
+    $filter_condition
+    ORDER BY $sort $order
+    LIMIT $limit OFFSET $offset
+    ";
 }
 
 $result = mysqli_query($connection, $sql);
@@ -103,6 +127,34 @@ $total_pages = ceil($total_rows / $limit); //calculate total have how many page
         </form>
     </div>
 
+    <div class="sort-controls">
+        Sort by:
+        <a href="?sort=event_date&order=<?= ($sort === 'event_date' && $order === 'asc') ? 'desc' : 'asc' ?>&program=<?= urlencode($search_query) ?>&filter=<?= $filter ?>"
+        class="sort-link <?= $sort === 'event_date' ? 'active' : '' ?>">
+            Date <?= $sort === 'event_date' ? ($order === 'asc' ? '▲' : '▼') : '' ?>
+        </a>
+        <a href="?sort=title&order=<?= ($sort === 'title' && $order === 'asc') ? 'desc' : 'asc' ?>&program=<?= urlencode($search_query) ?>&filter=<?= $filter ?>"
+        class="sort-link <?= $sort === 'title' ? 'active' : '' ?>">
+            Title <?= $sort === 'title' ? ($order === 'asc' ? '▲' : '▼') : '' ?>
+        </a>
+        <a href="?sort=location&order=<?= ($sort === 'location' && $order === 'asc') ? 'desc' : 'asc' ?>&program=<?= urlencode($search_query) ?>&filter=<?= $filter ?>"
+        class="sort-link <?= $sort === 'location' ? 'active' : '' ?>">
+            Location <?= $sort === 'location' ? ($order === 'asc' ? '▲' : '▼') : '' ?>
+        </a>
+    </div>
+
+    <form method="GET" action="" class="filter-form">
+        <input type="hidden" name="program" value="<?= htmlspecialchars($search_query) ?>">
+        <input type="hidden" name="sort" value="<?= htmlspecialchars($sort) ?>">
+        <input type="hidden" name="order" value="<?= htmlspecialchars($order) ?>">
+        <label for="filter">Show:</label>
+        <select name="filter" id="filter" onchange="this.form.submit()">
+            <option value="all" <?= $filter === 'all' ? 'selected' : '' ?>>All Upcoming</option>
+            <option value="week" <?= $filter === 'week' ? 'selected' : '' ?>>This Week</option>
+            <option value="month" <?= $filter === 'month' ? 'selected' : '' ?>>This Month</option>
+        </select>
+    </form>
+
     <div class="page-content">
         <div class="programs-section">
 
@@ -141,8 +193,7 @@ $total_pages = ceil($total_rows / $limit); //calculate total have how many page
             <div style="text-align: center; margin: 40px 0; font-family: Arial, sans-serif; font-weight: bold;">
 
                 <?php if ($page > 1): ?>
-                    <a href="program.php?page=<?php echo $page - 1; ?>&program=<?php echo urlencode($search_query); //urlencode is usde to convert certain special characters(exp: space and ?)into URL Format
-                                                                                ?>"
+                    <a href="program.php?page=<?php echo $page - 1; ?>&program=<?php echo urlencode($search_query);?>&sort=<?=$sort?>&order=<?=$order?>&filter=<?=$filter?>"
                         style="display: inline-block; padding: 8px 18px; margin: 0 10px; border: 2px solid #333; color: #333; text-decoration: none; border-radius: 4px; background-color: transparent;">
                         Prev Page
                     </a>
@@ -153,7 +204,7 @@ $total_pages = ceil($total_rows / $limit); //calculate total have how many page
                 </span>
 
                 <?php if ($page < $total_pages): ?>
-                    <a href="program.php?page=<?php echo $page + 1; ?>&program=<?php echo urlencode($search_query); ?>"
+                    <a href="program.php?page=<?php echo $page + 1; ?>&program=<?php echo urlencode($search_query);?>&sort=<?=$sort?>&order=<?=$order?>&filter=<?=$filter?>"
                         style="display: inline-block; padding: 8px 18px; margin: 0 10px; border: 2px solid #333; color: #333; text-decoration: none; border-radius: 4px; background-color: transparent;">
                         Next Page
                     </a>
