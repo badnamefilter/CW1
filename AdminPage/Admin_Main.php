@@ -9,12 +9,28 @@ if (!isset($_SESSION["id"]) || $_SESSION["role"] !== 'admin') {
 
 $total_programs = mysqli_fetch_assoc(mysqli_query($connection, "SELECT COUNT(*) as count FROM program"))['count'];
 
+$total_active_programs = mysqli_fetch_assoc(mysqli_query($connection, "SELECT COUNT(*) as count FROM program WHERE CURDATE() < event_date"))['count'];
+
 $total_pending = mysqli_fetch_assoc(mysqli_query($connection, "SELECT COUNT(*) as count FROM user_program WHERE status = 'Pending'"))['count'];
 
 $total_volunteers = mysqli_fetch_assoc(mysqli_query($connection, "SELECT COUNT(DISTINCT user_id) as count FROM user_program WHERE status != 'cancelled'"))['count'];
 
 $total_registered = mysqli_fetch_assoc(mysqli_query($connection, "SELECT COUNT(*) as count FROM user_program WHERE status != 'cancelled'"))['count'];
 $fill_rate = $total_programs > 0 ? round(($total_registered / ($total_programs * 10)) * 100) : 0;
+
+$leaderboard_sql = "SELECT a.username, COUNT(*) AS completed_count
+                     FROM user_program up
+                     INNER JOIN account a ON up.user_id = a.id
+                     WHERE up.status = 'Approved'
+                     GROUP BY up.user_id, a.username
+                     ORDER BY completed_count DESC
+                     LIMIT 3";
+
+$leaderboard_result = mysqli_query($connection, $leaderboard_sql);
+$leaders = [];
+while ($row = mysqli_fetch_assoc($leaderboard_result)) {
+  $leaders[] = $row;
+}
 
 $events_result = mysqli_query($connection, "
   SELECT title, event_date, start_time, location 
@@ -31,9 +47,9 @@ $approvals_result = mysqli_query($connection, "
   AND up.program_id = p.id
   AND up.status = 'Pending'
   ORDER BY up.Reg_date ASC
+  LIMIT 5
 ");
-// hi
-// not cool man 
+
 ?>
 
 <!DOCTYPE html>
@@ -79,15 +95,7 @@ $approvals_result = mysqli_query($connection, "
       <div class="tprog">
         <div class="grey"> Total Programs </div>
         <div class="Count"><?= $total_programs ?></div>
-        <div class="grey"> 3 active </div>
-      </div>
-    </div>
-
-    <div class="lainfo"> <!-- 2nd Widget -->
-      <div class="tprog">
-        <div class="grey"> Total draft programs </div>
-        <div class="Count"> 2 </div>
-        <div class="grey"> 2 drafts </div>
+        <div class="grey"> <?= $total_active_programs ?> active </div>
       </div>
     </div>
 
@@ -116,12 +124,39 @@ $approvals_result = mysqli_query($connection, "
     </div>
   </div>
 
+  <div class="leaderboard-section">
+    <h2 class="leaderboard-title">🏆 Top Volunteers</h2>
+    <div class="podium">
+        <?php
+        // Assume $leaders is an array of up to 3 rows, ordered 1st->3rd
+        // Reorder for visual podium: [2nd, 1st, 3rd]
+        $podium_order = [1, 0, 2]; // indexes into $leaders
+        $medals = ['🥈', '🥇', '🥉'];
+        $heights = ['podium-2nd', 'podium-1st', 'podium-3rd'];
+        
+        foreach ($podium_order as $i => $leaderIndex):
+            if (!isset($leaders[$leaderIndex])) continue;
+            $leader = $leaders[$leaderIndex];
+        ?>
+            <div class="podium-spot <?= $heights[$i] ?>">
+                <div class="podium-medal"><?= $medals[$i] ?></div>
+                <div class="podium-name"><?= htmlspecialchars($leader['username']) ?></div>
+                <div class="podium-count"><?= $leader['completed_count'] ?> programs</div>
+            </div>
+        <?php endforeach; ?>
+    </div>
+    <?php if (empty($leaders)): ?>
+        <p style="text-align:center; color:#888;">Not enough activity yet.</p>
+    <?php endif; ?>
+</div>
+
   <div class="randomah">
     <div class="randomm">
 
       <div class="envets">
-        <div class="envet">
+        <div class="envet" style="display: flex; align-items: center; gap: 30px;">
           <h1>Your Events,</h1>
+          <button onclick="window.location.href='Admin_Program.php';" class="niba">Show All</button>
         </div>
       </div>
 
@@ -155,7 +190,7 @@ $approvals_result = mysqli_query($connection, "
       <div class="requestHome">
         <div class="lalala">
           <div class="reqtitle">Approval Queue</div>
-          <button onclick="window.location.href='Admin_Request.php';" class="niba">Go Approve</button>
+          <button onclick="window.location.href='Admin_Request.php';" class="niba">Click to See All</button>
         </div>
         
         <?php if (mysqli_num_rows($approvals_result) === 0): ?>
@@ -174,3 +209,4 @@ $approvals_result = mysqli_query($connection, "
 
 </body>
 </html>
+

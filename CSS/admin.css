@@ -107,8 +107,8 @@ body {
 
 .randomline{
     margin-top: 30px;
-    height: 3px;
-    background-color: #000000;
+    margin-bottom: 30px;
+    height: 2px;
 }
 
 .create-program {
@@ -471,7 +471,7 @@ body {
 /* The program stat box */ 
 .container {
     display: flex;
-    margin-left: 30px;
+    justify-content: center;
     gap: 20px;
 }
 
@@ -623,4 +623,126 @@ body {
     border-bottom: 2px solid rgb(215, 195, 195);
     margin-left: 20px;
     margin-right: 20px;
+}
+
+.sort-controls {
+    text-align: center;
+    margin: 15px 0;
+    font-family: 'Times New Roman', serif;
+    color: #555;
+}
+
+.sort-link {
+    display: inline-block;
+    padding: 6px 14px;
+    margin: 0 4px;
+    border-radius: 20px;
+    text-decoration: none;
+    color: #555;
+    font-weight: bold;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.sort-link:hover {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+.sort-link.active {
+    background-color: #2e7d32;
+    color: white;
+}
+
+.sort-link.active:hover {
+    background-color: #45a049;
+}
+
+.filter-form{
+    text-align: center;
+    margin: 10px 0 20px;
+    font-family: 'Times New Roman', serif;
+}
+
+.filter-label{
+    font-weight: bold;
+    color: #555;
+    margin-right: 8px;
+}
+
+.filter-select {
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 2px solid #2e7d32;
+    background-color: white;
+    color: #2e7d32;
+    font-weight: bold;
+    font-size: 15px;
+    font-family: 'Times New Roman', serif;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.filter-select:hover{
+    background-color: #2e7d32;
+    color:white;
+}
+
+.filter-select:focus{
+    outline:none;
+    box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.2);
+}
+
+.leaderboard-section {
+    margin: 40px 30px 0;
+}
+
+.leaderboard-title {
+    font-family: 'Times New Roman', serif;
+    color: darkgreen;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.podium {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 20px;
+}
+
+.podium-spot {
+    background: white;
+    border: 2px solid #d1d1d1;
+    border-radius: 10px 10px 0 0;
+    text-align: center;
+    padding: 15px 25px;
+    box-shadow: 3px 3px 5px #4d4d4d;
+}
+
+.podium-medal {
+    font-size: 32px;
+}
+
+.podium-name {
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.podium-count {
+    color: #888;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.podium-1st {
+    height: 160px;
+    border-color: gold;
+}
+
+.podium-2nd {
+    height: 120px;
+}
+
+.podium-3rd {
+    height: 100px;
 }

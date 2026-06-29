@@ -32,6 +32,7 @@ if ($notification_result && mysqli_num_rows($notification_result) > 0) {
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="stylesheet" href="../CSS/user.css">
             <title>Document</title>
         </head>
 
