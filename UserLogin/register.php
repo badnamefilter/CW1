@@ -89,11 +89,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required><br><br>
 
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required><br><br>
+            <label for="password">Password (minimum 5 characters):</label>
+            <input type="password" id="password" name="password" required minlength="5"><br><br>
 
             <label for="confirm_password">Confirm Password:</label>
-            <input type="password" id="ConfirmPassword" name="confirm_password" required><br><br>
+            <input type="password" id="ConfirmPassword" name="confirm_password" minlength="5" required><br><br>
 
             <label for="role">Select role:</label>
             <select name="role" id="role">

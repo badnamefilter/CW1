@@ -109,8 +109,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <br>
             <br>
 
-            <label for="password">Change Your Password:</label><br><br>
-            <input type="text" name="password" id="password" placeholder="Enter a new password to change it!">
+            <label for="password">Change Your Password (minimum 5 characters):</label><br><br>
+            <input type="text" name="password" id="password" placeholder="Enter a new password to change it!" minlength="5">
             <input type="submit" value="Change" name="changePassword">
             <br>
             <br>

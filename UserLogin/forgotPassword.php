@@ -72,10 +72,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <h2>Reset your password</h2><br>
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required><br>
-            <label for="password">New Password:</label>
-            <input type="password" id="password" name="password" required><br>
+            <label for="password">New Password (minimum 5 characters):</label>
+            <input type="password" id="password" name="password" minlength="5" required><br>
             <label for="confirm-password">Confirm Password:</label>
-            <input type="password" id="confirm-password" name="confirm-password" required><br>
+            <input type="password" id="confirm-password" name="confirm-password" minlength="5" required><br>
             <br>
             <input type="submit" value="Reset Password"><br><br>
             <p>Return to Login <a href="login.php">here</a>.</p>
